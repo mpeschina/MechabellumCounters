@@ -63,6 +63,14 @@ st.write('''<style>
 }
 </style>''', unsafe_allow_html=True)
 
+st.write(""",<style>
+    /* Reduce space between components */
+        .block-container {
+        padding: 1rem 1rem 1rem 1rem !important; /* Adjust to reduce space around the whole block */
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 
 cols_per_row = 8  # 12 items per row
 cols_per_row_output = 8
