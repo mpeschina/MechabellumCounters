@@ -3,6 +3,8 @@ import os
 from PIL import Image
 import base64
 
+
+
 # Define the path to the image folder
 image_folder = os.path.join(os.getcwd(), "images")
 
@@ -39,6 +41,7 @@ st.set_page_config(
     page_title = 'Mechabellum Unit Counters'
 )
 
+
 st.write("""
     <style>
     /* Center-align and enlarge the checkbox */
@@ -74,7 +77,7 @@ def get_image_as_base64(img_path):
 # Create a list to keep track of unit names and images in a grid
 unit_list = list(unit_images.keys())
 num_units = len(unit_list)
-cols_per_row = 12  # 10 items per row
+cols_per_row = 8  # 12 items per row
 
 show_sliders = st.checkbox("Show Weight Sliders")
 # Loop through the units and create the grid layout
@@ -219,7 +222,7 @@ tiered_counters = classify_by_tier(best_counters)
 
 # Display the best counter units in matrix format
 st.write("Best Counter Units by Tier:")
-cols_per_row_output = 16
+cols_per_row_output = 10
 for tier, units in tiered_counters.items():
     st.markdown(f"**{tier}**")
     if units:  # Only display if there are units in the tier
