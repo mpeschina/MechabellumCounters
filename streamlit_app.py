@@ -253,9 +253,10 @@ for tier, units in tiered_counters.items():
                     f"""
                     <div style="text-align: center;">
                         <img src="data:image/jpeg;base64,{img_base64}" style="width:100%; border-radius: 10px;">
-                        <p>{unit}</p>
                     </div>
                     """,
                     unsafe_allow_html=True
                 )
+
+                #<p>{unit}</p>
 
