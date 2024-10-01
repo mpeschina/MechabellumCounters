@@ -39,19 +39,6 @@ st.set_page_config(
     page_title = 'Mechabellum Unit Counters'
 )
 
-
-# this seems to not work at all
-st.write("""
-    <style>
-    input[type=checkbox] {
-        transform: scale(1.5); /* Increase the size of the checkbox */
-        margin: 10px;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
-
-
 st.write("""
     <style>
     /* Center-align and enlarge the checkbox */
@@ -60,18 +47,9 @@ st.write("""
         justify-content: center;
         align-items: center;  /* Align vertically */
         transform: scale(1.5);  /* Enlarge the checkbox */
-        margin: 0px !important;
-        padding: 0px !important;
-        line-height: 1em !important; /* Reduce the line height */
-    }
-
-    /* Reduce space between components */
-    .block-container {
-        padding: 1rem 1rem 1rem 1rem !important; /* Adjust to reduce space around the whole block */
     }
     </style>
     """, unsafe_allow_html=True)
-
 
 
 
