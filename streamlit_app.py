@@ -55,9 +55,17 @@ st.write("""
     """, unsafe_allow_html=True)
 
 
+st.write('''<style>
+[data-testid="column"] {
+    width: calc(8% - 1rem) !important;
+    flex: 1 1 calc(8% - 1rem) !important;
+    min-width: calc(8% - 1rem) !important;
+}
+</style>''', unsafe_allow_html=True)
 
-cols_per_row = 4  # 12 items per row
-cols_per_row_output = 4
+
+cols_per_row = 8  # 12 items per row
+cols_per_row_output = 8
 
 #
 # db
