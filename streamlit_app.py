@@ -55,25 +55,27 @@ st.set_page_config(
 #    """, unsafe_allow_html=True)
 
 
-st.write('''<style>
-[data-testid="column"] {
-    width: calc(12.5% - 1rem) !important;
-    flex: 1 1 calc(12.5% - 1rem) !important;
-    min-width: calc(12.5% - 1rem) !important;
-}
-</style>''', unsafe_allow_html=True)
-
-st.write("""<style>
-    /* Reduce space between components */
-        .block-container {
-        padding: 1rem 1rem 1rem 1rem !important; /* Adjust to reduce space around the whole block */
-    }
-    </style>
-    """, unsafe_allow_html=True)
+# this distributes the space of col. equally. removes responsivenes
+#st.write('''<style>
+#[data-testid="column"] {
+#    width: calc(12.5% - 1rem) !important;
+#    flex: 1 1 calc(12.5% - 1rem) !important;
+#    min-width: calc(12.5% - 1rem) !important;
+#}
+#</style>''', unsafe_allow_html=True)
 
 
-cols_per_row = 8  # 12 items per row
-cols_per_row_output = 8
+#st.write("""<style>
+#    /* Reduce space between components */
+#        .block-container {
+#        padding: 1rem 1rem 1rem 1rem !important; /* Adjust to reduce space around the whole block */
+#    }
+#    </style>
+#   """, unsafe_allow_html=True)
+
+
+cols_per_row = 12  # 12 items per row
+cols_per_row_output = 16
 
 #
 # db
