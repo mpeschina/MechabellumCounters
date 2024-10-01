@@ -42,24 +42,24 @@ st.set_page_config(
 )
 
 
-st.write("""
-    <style>
-    /* Center-align and enlarge the checkbox */
-    [data-baseweb="checkbox"] {
-        display: flex;
-        justify-content: center;
-        align-items: center;  /* Align vertically */
-        transform: scale(1.5);  /* Enlarge the checkbox */
-    }
-    </style>
-    """, unsafe_allow_html=True)
+#st.write("""
+#    <style>
+#    /* Center-align and enlarge the checkbox */
+#    [data-baseweb="checkbox"] {
+#        display: flex;
+#        justify-content: center;
+#        align-items: center;  /* Align vertically */
+#        transform: scale(1.5);  /* Enlarge the checkbox */
+#    }
+#    </style>
+#    """, unsafe_allow_html=True)
 
 
 st.write('''<style>
 [data-testid="column"] {
-    width: calc(8% - 1rem) !important;
-    flex: 1 1 calc(8% - 1rem) !important;
-    min-width: calc(8% - 1rem) !important;
+    width: calc(12.5% - 1rem) !important;
+    flex: 1 1 calc(12.5% - 1rem) !important;
+    min-width: calc(12.5% - 1rem) !important;
 }
 </style>''', unsafe_allow_html=True)
 
