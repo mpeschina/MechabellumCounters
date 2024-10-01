@@ -56,7 +56,8 @@ st.write("""
 
 
 
-
+cols_per_row = 4  # 12 items per row
+cols_per_row_output = 4
 
 #
 # db
@@ -77,8 +78,6 @@ def get_image_as_base64(img_path):
 # Create a list to keep track of unit names and images in a grid
 unit_list = list(unit_images.keys())
 num_units = len(unit_list)
-cols_per_row = 8  # 12 items per row
-
 show_sliders = st.checkbox("Show Weight Sliders")
 # Loop through the units and create the grid layout
 for i in range(0, num_units, cols_per_row):
@@ -222,7 +221,6 @@ tiered_counters = classify_by_tier(best_counters)
 
 # Display the best counter units in matrix format
 st.write("Best Counter Units by Tier:")
-cols_per_row_output = 10
 for tier, units in tiered_counters.items():
     st.markdown(f"**{tier}**")
     if units:  # Only display if there are units in the tier
