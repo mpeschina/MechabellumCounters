@@ -63,7 +63,7 @@ st.write('''<style>
 }
 </style>''', unsafe_allow_html=True)
 
-st.write(""",<style>
+st.write("""<style>
     /* Reduce space between components */
         .block-container {
         padding: 1rem 1rem 1rem 1rem !important; /* Adjust to reduce space around the whole block */
