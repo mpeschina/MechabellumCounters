@@ -76,7 +76,7 @@ st.set_page_config(
 #   """, unsafe_allow_html=True)
 
 
-cols_per_row = 12  # 12 items per row
+cols_per_row = 13  # 12 items per row
 cols_per_row_output = 16
 
 #
