@@ -179,7 +179,7 @@ unit_matrix = {
     "Typhoon":      [A, S, D, C, S, B, D, D, D, D, E, D, C, E, D, D, D, D, D, D, D, C, D, D, D, B],
     "Sabertooth":   [D, C, C, A, E, B, B, A, D, E, B, A, E, B, A, D, D, E, D, D, A, D, C, E, E, E],
     "Tarantula":    [S, A, D, B, E, B, B, D, D, E, B, E, E, D, D, E, E, E, D, E, B, A, S, C, D, E],
-    "Farseer":      [B, A, D, A, S, B, C, D, D, C, D, S, B, D, C, E, E, D, E, E, A, B, S, C, C, S],
+    "Farseer":      [B, A, D, A, S, B, C, D, D, C, D, D, B, D, C, E, E, D, E, E, A, B, D, C, C, S],
                    #[C, A, D, A, A, B, B, D, D, C, C, D, B, A, D, B, D, D, D, D, D, B, C, D, C] # from internet guide
     "Phantom Ray":  [S, D, B, S, D, D, S, S, S, B, S, S, C, S, S, S, D, E, S, S, S, D, S, S, E, C]
 }
