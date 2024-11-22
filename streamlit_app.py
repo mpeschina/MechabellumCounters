@@ -81,8 +81,24 @@ st.set_page_config(
 #   """, unsafe_allow_html=True)
 
 
-cols_per_row = 13  # 12 items per row
-cols_per_row_output = 16
+#cols_per_row = 13  # 12 items per row
+#cols_per_row_output = 16
+# make it configurable for different screens
+cols_per_row = st.sidebar.slider(
+    "Select the number of columns per row:",
+    min_value=2,
+    max_value=24, 
+    value=13,  # Default value
+    step=1  
+)
+cols_per_row_output = st.sidebar.slider(
+    "Select the number of columns per row for output:",
+    min_value=5,
+    max_value=24,
+    value=16, # Default value
+    step=1
+)
+show_sliders = st.sidebar.checkbox("Show Weight Sliders")
 
 #
 # db
@@ -103,7 +119,6 @@ def get_image_as_base64(img_path):
 # Create a list to keep track of unit names and images in a grid
 unit_list = list(unit_images.keys())
 num_units = len(unit_list)
-show_sliders = st.checkbox("Show Weight Sliders")
 # Loop through the units and create the grid layout
 for i in range(0, num_units, cols_per_row):
     cols = st.columns(cols_per_row)
