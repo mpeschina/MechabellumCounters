@@ -38,7 +38,8 @@ unit_images = {
     "Typhoon": "typhoon.jpg",
     "Sabertooth": "sabertooth.jpg",
     "Tarantula": "tarantula.jpg", 
-    "Farseer": "farseer.jpg"
+    "Farseer": "farseer.jpg",
+    "Phantom Ray": "phantom_ray.jpg"
 }
 
 
@@ -147,38 +148,40 @@ for i in range(0, num_units, cols_per_row):
 #st.write("Selected Units:")
 #st.write(sorted(st.session_state.selected_units))
 
-S = 5
-A = 4
-B = 3
-C = 2
-D = 1
-E = 0
+S = 5 # unit wins, >95% HP left with nearly no damage
+A = 4 # unit wins, 60-95% HP left
+B = 3 # unit wins, 10-60% HP left
+C = 2 # unit wins, <10% HP left
+D = 1 # unit loose, Opponent is damaged
+E = 0 # unit loose, Opponent >95% HP
 unit_matrix = {
-    "Crawler":      [C, B, A, E, E, A, D, A, A, E, D, A, E, C, E, A, A, E, D, D, E, D, B, E, C],
-    "Fang":         [D, C, A, B, D, E, C, E, A, D, A, E, E, E, C, B, C, D, D, D, E, E, D, D, D],
-    "Marksman":     [D, D, C, S, D, D, D, D, D, A, D, S, A, C, B, D, D, A, D, D, A, C, D, B, C],
-    "Arclight":     [S, S, E, C, S, S, D, D, E, E, E, E, E, E, D, E, E, E, D, E, D, D, D, D, E],
-    "Wasp":         [S, D, C, S, C, D, S, S, S, B, A, S, E, A, A, A, B, C, S, A, S, D, S, S, E],
-    "Mustang":      [D, B, B, E, B, C, E, E, C, A, D, B, D, D, E, D, D, C, D, D, D, D, D, D, D],
-    "Sledgehammer": [A, S, C, A, E, S, C, D, B, E, D, B, E, E, D, E, D, E, D, E, D, B, D, D, D],
-    "Steelballs":   [D, D, B, A, E, A, B, C, A, E, A, E, E, D, B, C, B, E, D, D, B, A, D, A, B],
-    "Stormcaller":  [D, S, B, S, E, D, D, D, C, E, E, S, E, S, A, B, A, E, E, D, D, A, B, A, B],
-    "Phoenix":      [S, E, D, S, D, D, S, A, S, C, S, S, A, S, S, S, D, B, S, A, S, B, S, S, D],
-    "Rhino":        [C, C, C, S, E, B, B, D, S, E, C, A, E, A, A, D, E, E, D, E, A, A, D, D, A],
-    "Hacker": 		[D, E, E, S, E, D, D, S, E, E, D, C, E, D, D, E, D, E, D, E, A, A, D, S, E],
-    "Wraith": 	    [S, B, D, S, S, B, A, A, S, D, A, S, C, A, A, A, E, E, A, A, A, D, A, S, D],
-    "Scorpion":     [D, S, D, A, E, A, A, S, D, E, D, A, E, C, S, D, D, E, D, D, S, S, D, A, B],
-    "Vulcan": 	    [S, S, D, B, E, S, B, D, D, E, D, C, E, D, C, D, D, E, D, D, A, B, D, B, C],
-    "Fortress":     [D, D, B, S, E, C, A, D, D, E, A, S, E, B, A, C, E, E, D, D, S, A, C, S, A],
-    "Melting Point":[D, D, C, A, D, C, B, D, D, B, S, S, S, A, S, S, C, B, B, B, A, A, B, S, A],
-    "Overlord":     [S, D, D, S, D, D, S, S, C, D, S, S, A, S, S, S, D, C, S, A, S, B, S, S, A],
-    "Sandworm":     [B, B, S, S, E, B, A, D, S, E, C, A, E, B, A, C, D, E, C, D, S, A, B, A, S],
-    "War Factory":  [B, A, A, S, E, A, S, A, B, E, A, D, E, A, S, B, D, E, A, C, S, A, A, S, S],
-    "Fire Badger":  [S, S, D, B, E, A, C, D, A, E, D, D, E, E, D, E, D, E, D, E, C, B, D, D, D],
-    "Typhoon":      [A, S, D, C, S, B, D, D, D, D, E, D, C, E, D, D, D, D, D, D, D, C, D, D, D],
-    "Sabertooth":   [D, C, C, A, E, B, B, A, D, E, B, A, E, B, A, D, D, E, D, D, A, D, C, E, E],
-    "Tarantula":    [S, A, D, B, E, B, B, D, D, E, B, E, E, D, D, E, E, E, D, E, B, A, S, C, D],
-    "Farseer":      [B, A, D, A, S, B, C, D, D, C, D, S, B, D, C, E, E, D, E, E, A, B, S, C, C]
+    "Crawler":      [C, B, A, E, E, A, D, A, A, E, D, A, E, C, E, A, A, E, D, D, E, D, B, E, C, E],
+    "Fang":         [D, C, A, B, D, E, C, E, A, D, A, E, E, E, C, B, C, D, D, D, E, E, D, D, D, A],
+    "Marksman":     [D, D, C, S, D, D, D, D, D, A, D, S, A, C, B, D, D, A, D, D, A, C, D, B, C, D],
+    "Arclight":     [S, S, E, C, S, S, D, D, E, E, E, E, E, E, D, E, E, E, D, E, D, D, D, D, E, E],
+    "Wasp":         [S, D, C, S, C, D, S, S, S, B, A, S, E, A, A, A, B, C, S, A, S, D, S, S, E, B],
+    "Mustang":      [D, B, B, E, B, C, E, E, C, A, D, B, D, D, E, D, D, C, D, D, D, D, D, D, D, B],
+    "Sledgehammer": [A, S, C, A, E, S, C, D, B, E, D, B, E, E, D, E, D, E, D, E, D, B, D, D, D, E],
+    "Steelballs":   [D, D, B, A, E, A, B, C, A, E, A, E, E, D, B, C, B, E, D, D, B, A, D, A, B, E],
+    "Stormcaller":  [D, S, B, S, E, D, D, D, C, E, E, S, E, S, A, B, A, E, E, D, D, A, B, A, B, E],
+    "Phoenix":      [S, E, D, S, D, D, S, A, S, C, S, S, A, S, S, S, D, B, S, A, S, B, S, S, D, D],
+    "Rhino":        [C, C, C, S, E, B, B, D, S, E, C, A, E, A, A, D, E, E, D, E, A, A, D, D, A, E],
+    "Hacker": 		[D, E, E, S, E, D, D, S, E, E, D, C, E, D, D, E, D, E, D, E, A, A, D, S, E, E],
+    "Wraith": 	    [S, B, D, S, S, B, A, A, S, D, A, S, C, A, A, A, E, E, A, A, A, D, A, S, D, D],
+    "Scorpion":     [D, S, D, A, E, A, A, S, D, E, D, A, E, C, S, D, D, E, D, D, S, S, D, A, B, E],
+    "Vulcan": 	    [S, S, D, B, E, S, B, D, D, E, D, C, E, D, C, D, D, E, D, D, A, B, D, B, C, E],
+    "Fortress":     [D, D, B, S, E, C, A, D, D, E, A, S, E, B, A, C, E, E, D, D, S, A, C, S, A, E],
+    "Melting Point":[D, D, C, A, D, C, B, D, D, B, S, S, S, A, S, S, C, B, B, B, A, A, B, S, A, A],
+    "Overlord":     [S, D, D, S, D, D, S, S, C, D, S, S, A, S, S, S, D, C, S, A, S, B, S, S, A, S],
+    "Sandworm":     [B, B, S, S, E, B, A, D, S, E, C, A, E, B, A, C, D, E, C, D, S, A, B, A, S, E],
+    "War Factory":  [B, A, A, S, E, A, S, A, B, E, A, D, E, A, S, B, D, E, A, C, S, A, A, S, S, E],
+    "Fire Badger":  [S, S, D, B, E, A, C, D, A, E, D, D, E, E, D, E, D, E, D, E, C, B, D, D, D, E],
+    "Typhoon":      [A, S, D, C, S, B, D, D, D, D, E, D, C, E, D, D, D, D, D, D, D, C, D, D, D, B],
+    "Sabertooth":   [D, C, C, A, E, B, B, A, D, E, B, A, E, B, A, D, D, E, D, D, A, D, C, E, E, E],
+    "Tarantula":    [S, A, D, B, E, B, B, D, D, E, B, E, E, D, D, E, E, E, D, E, B, A, S, C, D, E],
+    "Farseer":      [B, A, D, A, S, B, C, D, D, C, D, S, B, D, C, E, E, D, E, E, A, B, S, C, C, S],
+                   #[C, A, D, A, A, B, B, D, D, C, C, D, B, A, D, B, D, D, D, D, D, B, C, D, C] # from internet guide
+    "Phantom Ray":  [S, D, B, S, D, D, S, S, S, B, S, S, C, S, S, S, D, E, S, S, S, D, S, S, E, C]
 }
 
 
