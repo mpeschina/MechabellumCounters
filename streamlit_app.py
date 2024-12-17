@@ -198,22 +198,33 @@ unit_matrix = {
                    #[C, A, D, A, A, B, B, D, D, C, C, D, B, A, D, B, D, D, D, D, D, B, C, D, C] # from internet guide
     "Phantom Ray":  [S, D, B, S, D, D, S, S, S, B, S, S, C, S, S, S, D, E, S, S, S, D, S, S, E, C]
 }
+# add individual units with tech. <Unit Name>: <Tech Name>
+unit_overrides = {"Marksman: Anti-Air": {"Phantom Ray": S, "Wrait": S, "Phoenix": S, "Overlord": S}}
+
+UNITS = list(unit_matrix.keys())
+UNITS_TECH = list(unit_overrides.keys())
+
+
 
 
 # Function to calculate the counter score
 def get_counter_score(selected_units, unit_matrix, weights):
-    scores = {unit: 0 for unit in unit_matrix.keys()}
+    all_units = UNITS + UNITS_TECH
+    scores = {unit: 0 for unit in all_units}
+    div = {unit: 0 for unit in all_units}
     
     for selected in selected_units:
         for unit, counters in unit_matrix.items():
-            index = list(unit_matrix.keys()).index(selected)
-            score = counters[index]
-            scores[unit] += score * weights[selected]
+            index = UNITS.index(selected)
+            scores[unit] += counters[index] * weights[selected]
+            div[unit] += weights[selected]
+        for unit, counters in unit_overrides.items():
+            if selected in counters:
+                scores[unit] += counters[selected] * weights[selected]
+                div[unit] += weights[selected]
     
     if (len(selected_units) > 0):
-        divider = sum([weights[s] for s in selected_units])
-        scores = {k: scores[k] / divider for k in scores.keys()}
-    # Sort by the highest total score and return the sorted list
+        scores = {k: scores[k] / div[k] for k in scores.keys()}
     return sorted(scores.items(), key=lambda x: x[1], reverse=True)
 
 
@@ -223,7 +234,6 @@ raw_weights = st.session_state.weights
 total_weight = sum(raw_weights.values())
 weights = {unit: weight / total_weight for unit, weight in raw_weights.items()}
 best_counters = get_counter_score(selected_units, unit_matrix, weights)
-
 
 
 #
@@ -261,6 +271,9 @@ def classify_by_tier(best_counters):
 # Example usage
 best_counters = get_counter_score(selected_units, unit_matrix, weights)
 tiered_counters = classify_by_tier(best_counters)
+
+
+
 
 # Display the best counter units in matrix format
 st.write("Best Counter Units by Tier:")
