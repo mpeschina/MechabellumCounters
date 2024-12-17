@@ -196,7 +196,7 @@ unit_matrix = {
     "Tarantula":    [S, A, D, B, E, B, B, D, D, E, B, E, E, D, D, E, E, E, D, E, B, A, S, C, D, E],
     "Farseer":      [B, A, D, A, S, B, C, D, D, C, D, D, B, D, C, E, E, D, E, E, A, B, D, C, C, S],
                    #[C, A, D, A, A, B, B, D, D, C, C, D, B, A, D, B, D, D, D, D, D, B, C, D, C] # from internet guide
-    "Phantom Ray":  [S, D, B, S, D, D, S, S, S, B, S, S, C, S, S, S, D, E, S, S, S, D, S, S, E, C]
+    "Phantom Ray":  [S, D, B, S, D, D, S, S, S, B, S, S, C, S, S, S, D, E, S, A, S, D, S, S, E, C]
 }
 # add individual units with tech. <Unit Name>: <Tech Name>
 unit_overrides = {
@@ -204,7 +204,7 @@ unit_overrides = {
     "Fortress: Anti-Air": {"Phantom Ray": C, "Wrait": A, "Phoenix": A, "Overlord": D, "Wasp": S},
     "Melting Point: Range + Multi": {"Fang": A, "Wasp": A, "Phantom Ray": A, "Sledgehammer": A},
     "Sandworm: Anti-Air": {"Phantom Ray": A, "Wrait": A, "Phoenix": A, "Overlord": B, "Wasp": B},
-    "Crawler: Acid": {"War Factory ": A, "Sandworm": A, "Rhino": S},
+    "Crawler: Acid": {"War Factory": A, "Sandworm": A, "Rhino": S},
     }
 
 UNITS = list(unit_matrix.keys())
@@ -261,13 +261,13 @@ def classify_by_tier(best_counters):
     }
 
     for unit, score in best_counters:
-        if 4 <= score <= 5:
+        if 4 < score <= 5:
             tier_bins["S Tier (4-5 points)"].append(unit)
-        elif 3 <= score < 4:
+        elif 3 < score <= 4:
             tier_bins["A Tier (3-4 points)"].append(unit)
-        elif 2 <= score < 3:
+        elif 2 < score <= 3:
             tier_bins["B Tier (2-3 points)"].append(unit)
-        elif 1 <= score < 2:
+        elif 1 < score <= 2:
             tier_bins["C Tier (1-2 points)"].append(unit)
         else:
             tier_bins["D/E Tier (0-1 point)"].append(unit)
