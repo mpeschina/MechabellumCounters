@@ -199,7 +199,13 @@ unit_matrix = {
     "Phantom Ray":  [S, D, B, S, D, D, S, S, S, B, S, S, C, S, S, S, D, E, S, S, S, D, S, S, E, C]
 }
 # add individual units with tech. <Unit Name>: <Tech Name>
-unit_overrides = {"Marksman: Anti-Air": {"Phantom Ray": S, "Wrait": S, "Phoenix": S, "Overlord": S}}
+unit_overrides = {
+    "Marksman: Anti-Air": {"Phantom Ray": S, "Wrait": S, "Phoenix": S, "Overlord": S},
+    "Fortress: Anti-Air": {"Phantom Ray": C, "Wrait": A, "Phoenix": A, "Overlord": D, "Wasp": S},
+    "Melting Point: Range + Multi": {"Fang": A, "Wasp": A, "Phantom Ray": A, "Sledgehammer": A},
+    "Sandworm: Anti-Air": {"Phantom Ray": A, "Wrait": A, "Phoenix": A, "Overlord": B, "Wasp": B},
+    "Crawler: Acid": {"War Factory ": A, "Sandworm": A, "Rhino": S},
+    }
 
 UNITS = list(unit_matrix.keys())
 UNITS_TECH = list(unit_overrides.keys())
@@ -224,7 +230,7 @@ def get_counter_score(selected_units, unit_matrix, weights):
                 div[unit] += weights[selected]
     
     if (len(selected_units) > 0):
-        scores = {k: scores[k] / div[k] for k in scores.keys()}
+        scores = {k: scores[k] / div[k] if scores[k]>0 else 0 for k in scores.keys()}
     return sorted(scores.items(), key=lambda x: x[1], reverse=True)
 
 
@@ -282,19 +288,27 @@ for tier, units in tiered_counters.items():
     if units:  # Only display if there are units in the tier
         cols = st.columns(cols_per_row_output)
         for idx, unit in enumerate(units):
-            # Get the image path and render the image
-            img_path = os.path.join(image_folder, unit_images[unit])
+            # Check for base unit and tech name
+            if ":" in unit:
+                base_unit, tech_name = unit.split(":", 1)
+                base_unit = base_unit.strip()
+                tech_name = tech_name.strip()
+            else:
+                base_unit = unit
+                tech_name = None
+
+            img_path = os.path.join(image_folder, unit_images[base_unit])
             img_base64 = get_image_as_base64(img_path)
+
+
             with cols[idx % cols_per_row_output]:
-                # Display the image
                 st.markdown(
                     f"""
                     <div style="text-align: center;">
                         <img src="data:image/jpeg;base64,{img_base64}" style="width:100%; border-radius: 10px;">
+                        <p><b>{tech_name if tech_name else ""}</b></p>
                     </div>
                     """,
                     unsafe_allow_html=True
                 )
-
-                #<p>{unit}</p>
 
