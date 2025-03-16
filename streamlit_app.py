@@ -16,6 +16,7 @@ image_folder = os.path.join(os.getcwd(), "images")
 unit_images = {
     "Crawler": "crawler.jpg",
     "Fang": "fang.jpg",
+    "Hound": "hound.jpg",
     "Marksman": "marksman.jpg",
     "Arclight": "arclight.jpg",
     "Wasp": "wasp.jpg",
@@ -24,6 +25,9 @@ unit_images = {
     "Steelballs": "steelball.jpg",
     "Stormcaller": "stormcaller.jpg",
     "Phoenix": "phoenix.jpg",
+    "Phantom Ray": "phantom_ray.jpg",
+    "Tarantula": "tarantula.jpg",
+    "Sabertooth": "sabertooth.jpg",
     "Rhino": "rhino.jpg",
     "Hacker": "hacker.jpg",
     "Wraith": "wraith.jpg",
@@ -31,15 +35,13 @@ unit_images = {
     "Vulcan": "vulcan.jpg",
     "Fortress": "fortress.jpg",
     "Melting Point": "melting_point.jpg",
-    "Overlord": "overlord.jpg",
     "Sandworm": "sandworm.jpg",
+    "Raiden": "raiden.jpg",
+    "Overlord": "overlord.jpg",
     "War Factory": "war_factory.jpg",
     "Fire Badger": "fire_badger.jpg",
     "Typhoon": "typhoon.jpg",
-    "Sabertooth": "sabertooth.jpg",
-    "Tarantula": "tarantula.jpg", 
-    "Farseer": "farseer.jpg",
-    "Phantom Ray": "phantom_ray.jpg"
+    "Farseer": "farseer.jpg"
 }
 
 
@@ -87,9 +89,9 @@ st.set_page_config(
 cols_per_row = st.sidebar.slider(
     "Select the number of columns per row:",
     min_value=2,
-    max_value=24, 
-    value=13,  # Default value
-    step=1  
+    max_value=24,
+    value=14,  # Default value
+    step=1
 )
 cols_per_row_output = st.sidebar.slider(
     "Select the number of columns per row for output:",
@@ -133,17 +135,17 @@ for i in range(0, num_units, cols_per_row):
             else:
                 if unit in st.session_state.selected_units:
                     st.session_state.selected_units.remove(unit)
-            
+
             # Determine the border based on the updated state
             if unit in st.session_state.selected_units:
                 border_style = "border: 3px solid black;"
             else:
                 border_style = "border: 3px solid transparent;"  # Invisible border for layout consistency
-            
+
             # Render the image with the correct border style AFTER the checkbox state is determined
             img_path = os.path.join(image_folder, unit_images[unit])
             img_base64 = get_image_as_base64(img_path)
-            
+
             # Display the image first with the appropriate border
             st.markdown(
                 f"""
@@ -151,7 +153,7 @@ for i in range(0, num_units, cols_per_row):
                     <img src="data:image/jpeg;base64,{img_base64}" style="width:100%; {border_style} border-radius: 10px;">
                     <p>{unit}</p>
                 </div>
-                """, 
+                """,
                 unsafe_allow_html=True
             )
 
@@ -170,47 +172,69 @@ C = 2 # unit wins, <10% HP left
 D = 1 # unit loose, Opponent is damaged
 E = 0 # unit loose, Opponent >95% HP
 unit_matrix = {
-    "Crawler":      [C, B, A, E, E, A, D, A, A, E, D, A, E, C, E, A, A, E, D, D, E, D, B, E, C, E],
-    "Fang":         [D, C, A, B, D, E, C, E, A, D, A, E, E, E, C, B, C, D, D, D, E, E, D, D, D, A],
-    "Marksman":     [D, D, C, S, D, D, D, D, D, A, D, S, A, C, B, D, D, A, D, D, A, C, D, B, C, D],
-    "Arclight":     [S, S, E, C, S, S, D, D, E, E, E, E, E, E, D, E, E, E, D, E, D, D, D, D, E, E],
-    "Wasp":         [S, D, C, S, C, D, S, S, S, B, A, S, E, A, A, A, B, C, S, A, S, D, S, S, E, B],
-    "Mustang":      [D, B, B, E, B, C, E, E, C, A, D, B, D, D, E, D, D, C, D, D, D, D, D, D, D, B],
-    "Sledgehammer": [A, S, C, A, E, S, C, D, B, E, D, B, E, E, D, E, D, E, D, E, D, B, D, D, D, E],
-    "Steelballs":   [D, D, B, A, E, A, B, C, A, E, A, E, E, D, B, C, B, E, D, D, B, A, D, A, B, E],
-    "Stormcaller":  [D, S, B, S, E, D, D, D, C, E, E, S, E, S, A, B, A, E, E, D, D, A, B, A, B, E],
-    "Phoenix":      [S, E, D, S, D, D, S, A, S, C, S, S, A, S, S, S, D, B, S, A, S, B, S, S, D, D],
-    "Rhino":        [C, C, C, S, E, B, B, D, S, E, C, A, E, A, A, D, E, E, D, E, A, A, D, D, A, E],
-    "Hacker": 		[D, E, E, S, E, D, D, S, E, E, D, C, E, D, D, E, D, E, D, E, A, A, D, S, E, E],
-    "Wraith": 	    [S, B, D, S, S, B, A, A, S, D, A, S, C, A, A, A, E, E, A, A, A, D, A, S, D, D],
-    "Scorpion":     [D, S, D, A, E, A, A, S, D, E, D, A, E, C, S, D, D, E, D, D, S, S, D, A, B, E],
-    "Vulcan": 	    [S, S, D, B, E, S, B, D, D, E, D, C, E, D, C, D, D, E, D, D, A, B, D, B, C, E],
-    "Fortress":     [D, D, B, S, E, C, A, D, D, E, A, S, E, B, A, C, E, E, D, D, S, A, C, S, A, E],
-    "Melting Point":[D, D, C, A, D, C, B, D, D, B, S, S, S, A, S, S, C, B, B, B, A, A, B, S, A, A],
-    "Overlord":     [S, D, D, S, D, D, S, S, C, D, S, S, A, S, S, S, D, C, S, A, S, B, S, S, A, S],
-    "Sandworm":     [B, B, S, S, E, B, A, D, S, E, C, A, E, B, A, C, D, E, C, D, S, A, B, A, S, E],
-    "War Factory":  [B, A, A, S, E, A, S, A, B, E, A, D, E, A, S, B, D, E, A, C, S, A, A, S, S, E],
-    "Fire Badger":  [S, S, D, B, E, A, C, D, A, E, D, D, E, E, D, E, D, E, D, E, C, B, D, D, D, E],
-    "Typhoon":      [A, S, D, C, S, B, D, D, D, D, E, D, C, E, D, D, D, D, D, D, D, C, D, D, D, B],
-    "Sabertooth":   [D, C, C, A, E, B, B, A, D, E, B, A, E, B, A, D, D, E, D, D, A, D, C, E, E, E],
-    "Tarantula":    [S, A, D, B, E, B, B, D, D, E, B, E, E, D, D, E, E, E, D, E, B, A, S, C, D, E],
-    "Farseer":      [B, A, D, A, S, B, C, D, D, C, D, D, B, D, C, E, E, D, E, E, A, B, D, C, C, S],
-                   #[C, A, D, A, A, B, B, D, D, C, C, D, B, A, D, B, D, D, D, D, D, B, C, D, C] # from internet guide
-    "Phantom Ray":  [S, D, B, S, D, D, S, S, S, B, S, S, C, S, S, S, D, E, S, A, S, D, S, S, E, C]
+    "Crawler":      [C, B, D, A, E, E, A, D, A, A, E, E, D, B, D, A, E, C, E, A, A, D, E, E, D, E, D, D],
+    "Fang":         [D, C, D, A, E, B, D, E, C, E, A, B, D, D, D, A, E, E, E, C, B, D, B, B, D, E, E, D],
+    "Hound":        [A, A, C, D, D, E, C, D, D, B, E, E, D, C, D, D, E, D, D, D, C, D, E, E, D, D, D, D],
+    "Marksman":     [D, D, B, C, S, D, D, D, D, D, A, D, B, D, D, S, A, C, B, D, D, D, D, A, D, A, C, D],
+    "Arclight":     [S, S, B, E, C, E, S, D, D, E, E, E, D, D, E, E, E, E, D, E, E, D, E, E, E, D, D, D],
+    "Wasp":         [S, D, S, C, S, C, D, S, S, S, B, D, S, S, A, S, E, A, A, A, B, S, B, B, A, S, D, D],
+    "Mustang":      [D, B, D, B, E, B, C, E, E, D, A, C, D, D, D, B, D, D, E, D, D, D, B, B, D, D, D, D],
+    "Sledgehammer": [A, S, B, C, A, E, S, C, D, B, E, E, D, D, D, B, E, E, D, E, D, D, E, E, E, D, B, D],
+    "Steelballs":   [D, D, B, C, A, E, A, B, C, A, E, E, B, D, A, E, E, D, B, C, B, D, E, E, D, B, A, C],
+    "Stormcaller":  [D, S, D, B, S, E, D, D, D, C, E, E, B, B, E, S, E, S, A, B, A, E, E, E, D, D, A, D],
+    "Phoenix":      [S, E, S, D, S, D, D, S, A, S, C, S, S, S, S, S, A, S, S, S, D, S, D, C, A, S, B, D],
+    "Phantom Ray":  [A, D, S, C, S, C, D, S, S, S, C, C, S, S, S, S, A, S, S, S, D, S, D, C, A, S, B, D],
+    "Tarantula":    [A, A, B, D, B, E, B, B, D, D, E, E, C, D, D, C, E, D, B, D, D, D, E, E, D, B, A, D],
+    "Sabertooth":   [D, C, D, C, A, E, B, B, A, D, E, E, A, C, B, A, E, B, A, D, D, D, E, E, D, A, A, A],
+    "Rhino":        [C, C, B, C, S, E, B, B, D, S, E, E, B, D, C, A, E, A, A, D, E, D, E, E, E, A, A, A],
+    "Hacker": 		[D, E, C, E, S, E, D, D, S, E, E, E, D, D, D, C, E, D, D, E, D, D, E, E, E, A, A, D],
+    "Wraith": 	    [S, B, S, D, S, S, B, A, A, S, D, D, A, A, A, S, C, A, A, A, E, A, D, D, A, S, D, D],
+    "Scorpion":     [D, S, A, D, A, E, A, A, S, D, E, E, B, D, D, A, E, C, S, D, D, D, E, E, D, S, S, B],
+    "Vulcan": 	    [S, S, A, D, B, E, S, B, D, D, E, E, D, D, D, C, E, D, C, D, D, D, E, E, D, A, B, D],
+    "Fortress":     [D, D, C, B, S, E, C, A, D, D, E, E, A, C, A, S, E, B, A, C, E, D, D, E, D, S, A, A],
+    "Melting Point":[D, D, D, C, A, D, C, A, D, D, B, B, A, B, S, S, S, A, S, S, C, B, A, B, B, A, A, A],
+    "Sandworm":     [B, B, B, S, S, E, B, A, D, S, E, E, B, B, C, A, E, B, A, C, D, C, E, E, D, S, A, A],
+    "Raiden":       [S, D, S, C, S, D, D, S, S, S, A, A, S, S, S, S, S, S, S, S, D, B, C, D, S, S, A, B],
+    "Overlord":     [S, D, S, D, S, D, D, S, S, S, D, D, S, S, S, S, S, S, S, S, D, S, B, C, S, S, A, A],
+    "War Factory":  [B, A, A, A, S, E, A, S, A, B, E, E, S, A, A, D, E, A, S, B, D, A, E, E, C, S, A, A],
+    "Fire Badger":  [S, S, B, D, B, E, A, C, D, A, E, E, D, D, D, D, E, E, D, E, D, D, E, E, E, C, B, D],
+    "Typhoon":      [A, S, B, D, C, S, B, D, D, D, D, D, B, D, E, D, C, E, D, D, D, D, D, D, D, D, C, D],
+    "Farseer":      [C, A, A, D, A, A, B, B, D, C, C, C, C, D, D, B, A, D, B, D, D, D, D, D, D, B, C, C]
 }
 # add individual units with tech. <Unit Name>: <Tech Name>
 unit_overrides = {
-    "Marksman: Anti-Air": {"Phantom Ray": S, "Wrait": S, "Phoenix": S, "Overlord": S},
-    "Fortress: Anti-Air": {"Phantom Ray": C, "Wrait": A, "Phoenix": A, "Overlord": D, "Wasp": S},
-    "Melting Point: Range + Multi": {"Fang": A, "Wasp": A, "Phantom Ray": A, "Sledgehammer": A},
-    "Sandworm: Anti-Air": {"Phantom Ray": A, "Wrait": A, "Phoenix": A, "Overlord": B, "Wasp": B},
-    "Crawler: Acid": {"War Factory": A, "Sandworm": A, "Rhino": S},
-    }
+    "Crawler: Acid": {"War Factory": B, "Sandworm": B},
+    "Fang: Rage": {"Stormcaller": C},
+    "Fang: Ignite": {"Fortress": A, "Melting Point": A, "Sandworm": B, "Raiden": A, "Overlord": A, "War Factory": A},
+    "Marksman: Anti-Air": {"Phantom Ray": S, "Wrait": S, "Phoenix": S, "Overlord": S, "Raiden": S},
+    "Arclight: Anti-Air": {"Wasp": S, "Wrait": D},
+    "Arclight: Charged-Shot": {"Sledgehammer": B, "Steelballs": A, "Rhino": C, "Vulcan": B},
+    "Wasp: Anti-Air": {"Overlord": A},
+    "Mustang: Anti-Air": {"Phantom Ray": A, "Wrait": B, "Overlord": A},
+    "Mustang: Missile": {"Stormcaller": B, "Phantom Ray": A, "Farseer": A},
+    "Mustang: Range": {"Farseer": A},
+    "Sledgehammer: Armor-Piercing": {"Rhino": B},
+    "Sledgehammer: Range": {"Vulcan": C},
+    "Steelballs: Range": {"War Factory": C},
+    "Phoenix: Range": {"Farseer": C},
+    "Phantom Ray: Armor": {"Mustang": A},
+    "Tarantula: Anti-Air": {"Wasp": S, "Phoenix": D, "Phantom Ray": C, "Wrait": A},
+    "Rhino: Whirlwind": {"Steelballs": B},
+    "Hacker: Range": {"Tarantula": C, "Vulcan": A},
+    "Rhino: Field-Main": {"Typhoon": A},
+    "Scorpion: Range+Siege": {"Stormcaller": A},
+    "Scorpion: Doubleshot+Range+Siege+Acid": {"Fortress": B, "Melting Point": B},
+    "Fortress: Anti-Air": {"Wasp": B},
+    "Fortress: Fang": {"Steelballs": A, "Sandworm": C},
+    "Melting Point: Energy-Diff": {"Fang": B, "Wasp": B, "Mustang": B, "Sledgehammer": A},
+    "Sandworm: Anti-Air": {"Wasp": B, "Phoenix": A, "Phantom Ray": C, "Wrait": A, "Raiden": A, "Overlord": C},
+    "Overlord: Mothership": {"Phoenix": A, "Overlord": C},
+    "Typhoon: Anti-Air": {"Phantom Ray": A, },
+    "Farseer: Missile": {"Stormcaller": B, "Phantom Ray": A, "Overlord": B},
+}
 
 UNITS = list(unit_matrix.keys())
 UNITS_TECH = list(unit_overrides.keys())
-
-
 
 
 # Function to calculate the counter score
@@ -218,7 +242,7 @@ def get_counter_score(selected_units, unit_matrix, weights):
     all_units = UNITS + UNITS_TECH
     scores = {unit: 0 for unit in all_units}
     div = {unit: 0 for unit in all_units}
-    
+
     for selected in selected_units:
         for unit, counters in unit_matrix.items():
             index = UNITS.index(selected)
@@ -228,7 +252,7 @@ def get_counter_score(selected_units, unit_matrix, weights):
             if selected in counters:
                 scores[unit] += counters[selected] * weights[selected]
                 div[unit] += weights[selected]
-    
+
     if (len(selected_units) > 0):
         scores = {k: scores[k] / div[k] if scores[k]>0 else 0 for k in scores.keys()}
     return sorted(scores.items(), key=lambda x: x[1], reverse=True)
@@ -271,7 +295,7 @@ def classify_by_tier(best_counters):
             tier_bins["C Tier (1-2 points)"].append(unit)
         else:
             tier_bins["D/E Tier (0-1 point)"].append(unit)
-    
+
     return tier_bins
 
 # Example usage
