@@ -90,7 +90,7 @@ cols_per_row = st.sidebar.slider(
     "Select the number of columns per row:",
     min_value=2,
     max_value=24,
-    value=13,  # Default value
+    value=14,  # Default value
     step=1
 )
 cols_per_row_output = st.sidebar.slider(
