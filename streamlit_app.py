@@ -101,7 +101,9 @@ if 'weights' not in st.session_state:
 
 
 # Helper function to convert image to base64
+@st.cache_data
 def get_image_as_base64(img_path):
+    """Read and encode each image path once per Streamlit cache lifetime."""
     with open(img_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
 
@@ -147,6 +149,16 @@ st.markdown(
         width: 100%;
         margin: 0 !important;
     }
+    [class*="st-key-show_de_tier"] {
+        margin-top: 1rem;
+    }
+    /* Wider phones have enough horizontal room for five compact unit cards. */
+    @media (min-width: 480px) and (max-width: 640px) {
+        [class*="st-key-unit_picker_grid"],
+        [class*="st-key-tier_grid_"] {
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+        }
+    }
     @media (min-width: 641px) {
         [class*="st-key-unit_picker_grid"],
         [class*="st-key-tier_grid_"] {
@@ -168,6 +180,7 @@ st.markdown(
         padding: clamp(.35rem, 1.2vw, .7rem);
         border: 0;
         border-radius: 12px;
+        overflow: hidden;
         background-color: transparent;
         background-position: center;
         background-repeat: no-repeat;
@@ -188,17 +201,24 @@ st.markdown(
         z-index: 2;
         top: 50%;
         left: 50%;
-        width: fit-content;
-        max-width: calc(100% - 16px);
-        padding: clamp(.45rem, 1vw, .85rem) clamp(.65rem, 1.5vw, 1.35rem);
+        box-sizing: border-box;
+        display: block;
+        width: calc(100% - 8px);
+        max-height: calc(100% - 8px);
+        overflow: hidden;
+        padding: .25em .35em;
         border-radius: 50%;
         background: radial-gradient(ellipse at center, rgba(0, 0, 0, .72) 0%, rgba(0, 0, 0, .42) 28%, rgba(0, 0, 0, 0) 70%);
         color: #fff;
-        font-size: clamp(.65rem, 1vw, .95rem);
+        font-size: clamp(.5rem, .75vw, .8rem);
         font-weight: 400;
-        line-height: 1.2;
+        line-height: 1.1;
         text-align: center;
         text-shadow: none;
+        /* Wrap multi-word unit names at spaces; never split a word mid-name. */
+        white-space: normal;
+        overflow-wrap: normal;
+        word-break: normal;
         transform: translate(-50%, -50%);
         pointer-events: none;
     }
@@ -448,33 +468,46 @@ tiered_counters = classify_by_tier(best_counters)
 
 
 
-# Display the best counter units in matrix format
-st.write("Best Counter Units by Tier:")
-for tier, units in tiered_counters.items():
-    if units:  # Only display populated tiers.
-        st.markdown(f"**{tier}**")
-        with st.container(key=f"tier_grid_{unit_key(tier)}"):
-            for unit in units:
-                # Check for base unit and tech name.
-                if ":" in unit:
-                    base_unit, tech_name = unit.split(":", 1)
-                    base_unit = base_unit.strip()
-                    tech_name = tech_name.strip()
-                else:
-                    base_unit = unit
-                    tech_name = None
+# Display the best counter units in matrix format.
+if not selected_units:
+    st.info("Please select enemy units to get counters")
+else:
+    st.write("Best Counter Units by Tier:")
+    for tier, units in tiered_counters.items():
+        if units:  # Only display populated tiers.
+            # D/E results are intentionally deferred: rendering their cards also loads
+            # every associated image into the page.
+            if tier == "D/E Tier (0-1 point)":
+                if not st.button(
+                    f"Show D/E Tier ({len(units)} units)",
+                    key="show_de_tier",
+                    type="primary",
+                ):
+                    continue
 
-                img_path = os.path.join(image_folder, unit_images[base_unit])
-                img_base64 = get_image_as_base64(img_path)
-                tech_label = f"<p><b>{tech_name}</b></p>" if tech_name else ""
+            st.markdown(f"**{tier}**")
+            with st.container(key=f"tier_grid_{unit_key(tier)}"):
+                for unit in units:
+                    # Check for base unit and tech name.
+                    if ":" in unit:
+                        base_unit, tech_name = unit.split(":", 1)
+                        base_unit = base_unit.strip()
+                        tech_name = tech_name.strip()
+                    else:
+                        base_unit = unit
+                        tech_name = None
 
-                st.markdown(
-                    f"""
-                    <div class="result-card">
-                        <img src="data:image/jpeg;base64,{img_base64}" alt="{base_unit}">
-                        {tech_label}
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
+                    img_path = os.path.join(image_folder, unit_images[base_unit])
+                    img_base64 = get_image_as_base64(img_path)
+                    tech_label = f"<p><b>{tech_name}</b></p>" if tech_name else ""
+
+                    st.markdown(
+                        f"""
+                        <div class="result-card">
+                            <img src="data:image/jpeg;base64,{img_base64}" alt="{base_unit}">
+                            {tech_label}
+                        </div>
+                        """,
+                        unsafe_allow_html=True
+                    )
 
