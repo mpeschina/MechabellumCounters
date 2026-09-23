@@ -142,7 +142,9 @@ for unit, filename in unit_images.items():
     img_base64 = get_image_as_base64(os.path.join(image_folder, filename))
     tile_image_css.append(
         f"[class*='st-key-unit_tile_{unit_key(unit)}'] button {{ "
-        f"background-image: url('data:image/jpeg;base64,{img_base64}'); }}"
+        f"background-image: url('data:image/jpeg;base64,{img_base64}'); }} "
+        f"[class*='st-key-unit_tile_{unit_key(unit)}'] button::before {{ "
+        f"content: '{unit}'; }}"
     )
 
 st.markdown(
@@ -165,19 +167,41 @@ st.markdown(
         font-size: .95rem;
         font-weight: 700;
         text-align: left;
-        text-shadow: 0 1px 3px #000;
+        text-shadow: none;
         transition: transform 140ms ease, filter 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
+    }
+    [class*="st-key-unit_tile_"] button [data-testid="stMarkdownContainer"] {
+        visibility: hidden;
+    }
+    [class*="st-key-unit_tile_"] button::before {
+        position: absolute;
+        z-index: 2;
+        top: 50%;
+        left: 50%;
+        width: fit-content;
+        max-width: calc(100% - 16px);
+        padding: .85rem 1.35rem;
+        border-radius: 50%;
+        background: radial-gradient(ellipse at center, rgba(0, 0, 0, .72) 0%, rgba(0, 0, 0, .42) 28%, rgba(0, 0, 0, 0) 70%);
+        color: #fff;
+        font-size: .95rem;
+        font-weight: 400;
+        line-height: 1.2;
+        text-align: center;
+        text-shadow: none;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
     }
     [class*="st-key-unit_tile_"] button:hover {
         filter: brightness(1.15);
         transform: scale(1.035);
-        box-shadow: 0 7px 18px rgba(0, 0, 0, .38);
+        box-shadow: none;
         z-index: 1;
     }
     [class*="_selected"] button {
         border: 5px solid #000;
         filter: brightness(.84);
-        box-shadow: 0 7px 20px rgba(0, 0, 0, .42);
+        box-shadow: none;
     }
     [class*="_selected"] button:hover {
         filter: brightness(.98);
@@ -185,6 +209,7 @@ st.markdown(
     [class*="_selected"] button::after {
         content: "✓";
         position: absolute;
+        z-index: 3;
         top: 8px;
         right: 9px;
         display: grid;
@@ -198,7 +223,7 @@ st.markdown(
         font-weight: 900;
         line-height: 1;
         text-shadow: none;
-        box-shadow: 0 2px 7px rgba(0, 0, 0, .45);
+        box-shadow: none;
     }
     """ + "\n".join(tile_image_css) + "</style>",
     unsafe_allow_html=True,
