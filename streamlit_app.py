@@ -152,8 +152,8 @@ st.markdown(
     [class*="st-key-show_de_tier"] {
         margin-top: 1rem;
     }
-    /* Wider phones have enough horizontal room for five compact unit cards. */
-    @media (min-width: 480px) and (max-width: 640px) {
+    /* Modern large phones, including the iPhone 16 Pro Max in portrait. */
+    @media (min-width: 390px) and (max-width: 640px) {
         [class*="st-key-unit_picker_grid"],
         [class*="st-key-tier_grid_"] {
             grid-template-columns: repeat(5, minmax(0, 1fr));
