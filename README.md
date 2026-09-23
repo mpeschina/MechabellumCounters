@@ -10,7 +10,7 @@ Select the units on the opposing board, optionally give the most important threa
 - Counter suggestions for both base units and selected tech variants
 - Optional weights for prioritizing particular enemy units
 - Tiered recommendations based on the combined matchup score
-- Configurable input and output grid sizes for different screen widths
+- Responsive image grids with compact defaults for mobile, tablet, and desktop
 - Fully local data and images; no API key or external service is required
 
 ## Getting started
@@ -58,7 +58,8 @@ Streamlit will print the local address in the terminal, usually `http://localhos
 2. Enable **Show Weight Sliders** in the sidebar if some enemy units should influence the result more strongly.
 3. Assign weights from 1 to 5 to the selected units. A higher weight gives that matchup more influence.
 4. Review the counter suggestions under **Best Counter Units by Tier**.
-5. Use the sidebar's column controls to adapt the grids to your screen.
+5. The image grids adapt automatically to your screen: three columns on phones,
+   eight on tablets and small desktops, and fourteen on wide desktop screens.
 
 Bold text beneath a result image identifies a recommended tech variant. Results without a tech label refer to the base unit.
 

@@ -87,23 +87,6 @@ st.set_page_config(
 #   """, unsafe_allow_html=True)
 
 
-#cols_per_row = 13  # 12 items per row
-#cols_per_row_output = 16
-# make it configurable for different screens
-cols_per_row = st.sidebar.slider(
-    "Select the number of columns per row:",
-    min_value=2,
-    max_value=24,
-    value=14,  # Default value
-    step=1
-)
-cols_per_row_output = st.sidebar.slider(
-    "Select the number of columns per row for output:",
-    min_value=5,
-    max_value=24,
-    value=16, # Default value
-    step=1
-)
 show_sliders = st.sidebar.checkbox("Show Weight Sliders")
 
 #
@@ -150,12 +133,39 @@ for unit, filename in unit_images.items():
 st.markdown(
     """
     <style>
+    /* Keyed containers let native Streamlit widgets participate in a CSS Grid. */
+    [class*="st-key-unit_picker_grid"],
+    [class*="st-key-tier_grid_"] {
+        display: grid !important;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: .5rem;
+        width: 100%;
+    }
+    [class*="st-key-unit_picker_grid"] > [data-testid="stElementContainer"],
+    [class*="st-key-tier_grid_"] > [data-testid="stElementContainer"] {
+        min-width: 0;
+        width: 100%;
+        margin: 0 !important;
+    }
+    @media (min-width: 641px) {
+        [class*="st-key-unit_picker_grid"],
+        [class*="st-key-tier_grid_"] {
+            grid-template-columns: repeat(8, minmax(0, 1fr));
+        }
+    }
+    @media (min-width: 1200px) {
+        [class*="st-key-unit_picker_grid"],
+        [class*="st-key-tier_grid_"] {
+            grid-template-columns: repeat(14, minmax(0, 1fr));
+        }
+    }
     [class*="st-key-unit_tile_"] button {
         position: relative;
         box-sizing: border-box;
+        width: 100%;
         aspect-ratio: 248 / 378;
-        min-height: 142px;
-        padding: 0.7rem;
+        min-height: 0;
+        padding: clamp(.35rem, 1.2vw, .7rem);
         border: 0;
         border-radius: 12px;
         background-color: transparent;
@@ -164,7 +174,7 @@ st.markdown(
         background-size: cover;
         box-shadow: none;
         color: white;
-        font-size: .95rem;
+        font-size: clamp(.65rem, 1vw, .95rem);
         font-weight: 700;
         text-align: left;
         text-shadow: none;
@@ -180,11 +190,11 @@ st.markdown(
         left: 50%;
         width: fit-content;
         max-width: calc(100% - 16px);
-        padding: .85rem 1.35rem;
+        padding: clamp(.45rem, 1vw, .85rem) clamp(.65rem, 1.5vw, 1.35rem);
         border-radius: 50%;
         background: radial-gradient(ellipse at center, rgba(0, 0, 0, .72) 0%, rgba(0, 0, 0, .42) 28%, rgba(0, 0, 0, 0) 70%);
         color: #fff;
-        font-size: .95rem;
+        font-size: clamp(.65rem, 1vw, .95rem);
         font-weight: 400;
         line-height: 1.2;
         text-align: center;
@@ -199,7 +209,7 @@ st.markdown(
         z-index: 1;
     }
     [class*="_selected"] button {
-        border: 5px solid #000;
+        border: clamp(2px, .35vw, 5px) solid #000;
         filter: brightness(.84);
         box-shadow: none;
     }
@@ -210,47 +220,65 @@ st.markdown(
         content: "✓";
         position: absolute;
         z-index: 3;
-        top: 8px;
-        right: 9px;
+        top: clamp(3px, .55vw, 8px);
+        right: clamp(3px, .6vw, 9px);
         display: grid;
         place-items: center;
-        width: 27px;
-        height: 27px;
+        width: clamp(16px, 2vw, 27px);
+        height: clamp(16px, 2vw, 27px);
         border-radius: 50%;
         background: #000;
         color: #fff;
-        font-size: 19px;
+        font-size: clamp(11px, 1.4vw, 19px);
         font-weight: 900;
         line-height: 1;
         text-shadow: none;
         box-shadow: none;
     }
+    .result-card {
+        min-width: 0;
+        text-align: center;
+    }
+    .result-card img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 248 / 378;
+        border-radius: 10px;
+        object-fit: cover;
+    }
+    .result-card p {
+        margin: .25rem 0 0;
+        font-size: clamp(.65rem, 1vw, .95rem);
+        overflow-wrap: anywhere;
+    }
     """ + "\n".join(tile_image_css) + "</style>",
     unsafe_allow_html=True,
 )
 
-# Create a list to keep track of unit names and images in a grid
-unit_list = list(unit_images.keys())
-num_units = len(unit_list)
-# Loop through the units and create the grid layout
-for i in range(0, num_units, cols_per_row):
-    cols = st.columns(cols_per_row)
-    for j, unit in enumerate(unit_list[i:i+cols_per_row]):
-        with cols[j]:
-            key = unit_key(unit)
-            selected = unit in st.session_state.selected_units
-            with st.container(key=f"unit_tile_{key}{'_selected' if selected else ''}"):
-                st.button(
-                    unit,
-                    key=f"unit_button_{key}",
-                    use_container_width=True,
-                    on_click=toggle_unit,
-                    args=(unit,),
-                )
+# Each item stays in its own native container, while the parent CSS Grid
+# controls wrapping and the number of columns at each viewport width.
+with st.container(key="unit_picker_grid"):
+    for unit in unit_images:
+        key = unit_key(unit)
+        selected = unit in st.session_state.selected_units
+        with st.container(key=f"unit_tile_{key}{'_selected' if selected else ''}"):
+            st.button(
+                unit,
+                key=f"unit_button_{key}",
+                use_container_width=True,
+                on_click=toggle_unit,
+                args=(unit,),
+            )
 
-            # Add a weight slider below each unit (range 1 to 5)
-            if show_sliders and unit in st.session_state.selected_units:
-                st.session_state.weights[unit] = st.slider(f" ", key=f"slider:{unit}", min_value=1, max_value=5, value=st.session_state.weights[unit])
+            # Add a weight slider below each selected unit (range 1 to 5).
+            if show_sliders and selected:
+                st.session_state.weights[unit] = st.slider(
+                    " ",
+                    key=f"slider:{unit}",
+                    min_value=1,
+                    max_value=5,
+                    value=st.session_state.weights[unit],
+                )
 
 # Display the output: sorted list of selected units
 #st.write("Selected Units:")
@@ -423,29 +451,28 @@ tiered_counters = classify_by_tier(best_counters)
 # Display the best counter units in matrix format
 st.write("Best Counter Units by Tier:")
 for tier, units in tiered_counters.items():
-    st.markdown(f"**{tier}**")
-    if units:  # Only display if there are units in the tier
-        cols = st.columns(cols_per_row_output)
-        for idx, unit in enumerate(units):
-            # Check for base unit and tech name
-            if ":" in unit:
-                base_unit, tech_name = unit.split(":", 1)
-                base_unit = base_unit.strip()
-                tech_name = tech_name.strip()
-            else:
-                base_unit = unit
-                tech_name = None
+    if units:  # Only display populated tiers.
+        st.markdown(f"**{tier}**")
+        with st.container(key=f"tier_grid_{unit_key(tier)}"):
+            for unit in units:
+                # Check for base unit and tech name.
+                if ":" in unit:
+                    base_unit, tech_name = unit.split(":", 1)
+                    base_unit = base_unit.strip()
+                    tech_name = tech_name.strip()
+                else:
+                    base_unit = unit
+                    tech_name = None
 
-            img_path = os.path.join(image_folder, unit_images[base_unit])
-            img_base64 = get_image_as_base64(img_path)
+                img_path = os.path.join(image_folder, unit_images[base_unit])
+                img_base64 = get_image_as_base64(img_path)
+                tech_label = f"<p><b>{tech_name}</b></p>" if tech_name else ""
 
-
-            with cols[idx % cols_per_row_output]:
                 st.markdown(
                     f"""
-                    <div style="text-align: center;">
-                        <img src="data:image/jpeg;base64,{img_base64}" style="width:100%; border-radius: 10px;">
-                        <p><b>{tech_name if tech_name else ""}</b></p>
+                    <div class="result-card">
+                        <img src="data:image/jpeg;base64,{img_base64}" alt="{base_unit}">
+                        {tech_label}
                     </div>
                     """,
                     unsafe_allow_html=True
