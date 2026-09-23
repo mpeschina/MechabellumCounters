@@ -348,50 +348,48 @@ unit_overrides = {
     "Crawler: Acid": {"War Factory": B, "Sandworm": B, "Mountain": B},
     "Fang: Rage": {"Stormcaller": C},
     "Fang: Ignite": {"Fortress": A, "Melting Point": A, "Sandworm": B, "Raiden": A, "Overlord": A, "War Factory": A, "Mountain": B},
-    "Void Eye: Aerial Mod": {"Wasp": A, "Phoenix": B, "Phantom Ray": C,"Wrath": A, "Raiden": C, "Overlord": B,},
-    "Marksman: Aerial Spec": {"Raiden": S},
-    "Arclight: Anti-Air": {"Wasp": S, "Wraith": D},
-    "Arclight: Charged-Shot": {"Sledgehammer": B, "Steelballs": A, "Rhino": C, "Vulcan": B},
-    "Wasp: Aerial Spec": {"Overlord": A},
-    "Wasp: Mod?": {"Wrath": C},
-    "Mustang: Anti-Air": {"Phantom Ray": B, "Wraith": B, "Overlord": A, "Abyss": B},
-    "Mustang: Missile": {"Stormcaller": B, "Phantom Ray": A, "Farseer": A},
-    "Mustang: Range": {"Farseer": A},
-    "Mustang: Map Pos": {"Stormcaller": D, "Abyss": D},
-    "Sledgehammer: Armor-Piercing": {"Rhino": B},
-    "Sledgehammer: Range": {"Vulcan": C},
-    "Sledgehammer: Armor-Enchacment": {"Tarantula": C, "Vulcan": C, "Fire Badger": S},
-    "Steelballs: Range": {"Hacker": B, "War Factory": C},
-    "Steelballs: Armor": {"Crawler": B, "Fang": A},
-    "Steelballs: Mechanical Div": {"Scorpion": B},
-    "Steelballs: Map Pos": {"Marksman": C},
-    "Stormcaller: Map Pos": {"Mustang": D, "Farseer": B},
-    "Phoenix: Range": {"Farseer": C},
-    "Phoenix: Map Pos": {"Overlord": C},
-    "Phantom Ray: Armor": {"Fang": S, "Mustang": A},
-    "Phantom Ray: Mod?": {"Farseer": D},
-    "Tarantula: Anti-Air": {"Wasp": A, "Phoenix": D, "Phantom Ray": C, "Wraith": A},
+    "Void Eye: Aerial Mode": {"Wasp": A, "Phoenix": B, "Phantom Ray": C, "Wraith": A, "Raiden": C, "Overlord": B},
+    "Marksman: Aerial Specialization": {"Raiden": S},
+    "Arclight: Anti-Aircraft Ammunition": {"Wasp": S, "Wraith": D},
+    "Arclight: Charged Shot": {"Sledgehammer": B, "Steelballs": A, "Rhino": C, "Vulcan": B},
+    "Wasp: Aerial Specialization": {"Wraith": C, "Overlord": A},
+    "Mustang: Aerial Specialization": {"Phantom Ray": B, "Wraith": B, "Overlord": A, "Abyss": B},
+    "Mustang: Missile Interception": {"Stormcaller": B, "Phantom Ray": A, "Farseer": A},
+    "Mustang: Range Enhancement": {"Farseer": A},
+    "Mustang: Map Position": {"Stormcaller": D, "Abyss": D},
+    "Sledgehammer: Armor-Piercing Bullets": {"Rhino": B},
+    "Sledgehammer: Range Enhancement": {"Vulcan": C},
+    "Sledgehammer: Armor Enhancement": {"Tarantula": C, "Vulcan": C, "Fire Badger": S},
+    "Steelballs: Range Enhancement": {"Hacker": B, "War Factory": C},
+    "Steelballs: Armor Enhancement": {"Crawler": B, "Fang": A},
+    "Steelballs: Mechanical Division": {"Scorpion": B},
+    "Steelballs: Map Position": {"Marksman": C},
+    "Stormcaller: Map Position": {"Mustang": D, "Farseer": B},
+    "Phoenix: Range Enhancement": {"Farseer": C},
+    "Phoenix: Map Position": {"Overlord": C},
+    "Phantom Ray: Armor Enhancement": {"Fang": S, "Mustang": A},
+    "Tarantula: Anti-Aircraft Ammunition": {"Wasp": A, "Phoenix": D, "Phantom Ray": C, "Wraith": A},
     "Sabertooth: Secondary Armament": {"Hound": A, "Void Eye": B},
-    "Sabertooth: Double SHot": {"Fortress": B, "Melting Point": A, "Sandworm": B},
+    "Sabertooth: Double Shot": {"Fortress": B, "Melting Point": A, "Sandworm": B},
     "Rhino: Whirlwind": {"Steelballs": B},
-    "Rhino: Mod?": {"Steelballs": B},
-    "Rhino: +UnitCover": {"Hacker": A},
-    "Hacker: Range": {"Tarantula": C, "Vulcan": A},
-    "Hacker: +UnitCover": {"Rhino": A},
-    "Wraith: Shield + Repair ?": {"Typhoon": A},
-    "Scorpion: Range+Siege": {"Stormcaller": A},
-    "Scorpion: Doubleshot+Range+Siege+Acid": {"Fortress": B, "Melting Point": B},
+    "Rhino: Final Blitz": {"Steelballs": B},
+    "Rhino: Unit Cover": {"Hacker": A},
+    "Hacker: Range Enhancement": {"Tarantula": C, "Vulcan": A},
+    "Hacker: Unit Cover": {"Rhino": A},
+    "Wraith: Armor + Field Maintenance": {"Typhoon": A},
+    "Scorpion: Range + Siege Mode": {"Stormcaller": A},
+    "Scorpion: Double Shot + Range + Siege Mode + Acid": {"Fortress": B, "Melting Point": B},
     "Scorpion: Acid": {"Mountain": C},  
     "Fortress: Rocket Punch": {"Crawler": C, "Fang": B, "Steelballs": B, "Stormcaller": B, "Sandworm" :C},
     "Fortress: Anti-Air": {"Wasp": B,},
-    "Fortress: Fang Prod": {"Steelballs": A, "Sandworm": C},
-    "Melting Point: Energy-Diff": {"Fang": B, "Void Eye": C, "Wasp": B, "Mustang": B, "Sledgehammer": A},
+    "Fortress: Fang Production": {"Steelballs": A, "Sandworm": C},
+    "Melting Point: Energy Diffraction": {"Fang": B, "Void Eye": C, "Wasp": B, "Mustang": B, "Sledgehammer": A},
     "Sandworm: Anti-Aerial": {"Wasp": B, "Phoenix": A, "Phantom Ray": C, "Wraith": A, "Raiden": A, "Overlord": C},
     "Overlord: Mothership": {"Phoenix": A},
-    "Overlord: Armor Enchancement": {"Fang": S, "Mustang": A},
+    "Overlord: Armor Enhancement": {"Fang": S, "Mustang": A},
     "Abyss: Map Position": {"Phoenix": B},
-    "Mountain: Antu Aircraft": {"Wasp": B, "Phoenix": B, "Phantom Ray": B, "Wraith": A, "Raiden": A, "Overlord": A},
-    "Typhoon: Aerial Spec": {"Phantom Ray": A,"Overlord": C},
+    "Mountain: Anti-Aircraft Ammunition": {"Wasp": B, "Phoenix": B, "Phantom Ray": B, "Wraith": A, "Raiden": A, "Overlord": A},
+    "Typhoon: Aerial Specialization": {"Phantom Ray": A,"Overlord": C},
     "Farseer: Missile": {"Stormcaller": B, "Phantom Ray": A, "Overlord": B},
     "Farseer: Map Position": {"Stormcaller": C},
 }
@@ -437,27 +435,35 @@ best_counters = get_counter_score(selected_units, unit_matrix, weights)
 #for unit, score in best_counters:
 #    st.write(f"{unit}: {score}")
 
+# Concise tier labels shown in the UI.
+S_TIER = "S Tier (4-5 points)"
+A_TIER = "A Tier (3-4 points)"
+B_TIER = "B Tier (2-3 points)"
+C_TIER = "C Tier (1-2 points)"
+DE_TIER = "D/E Tier (0-1 point)"
+
+
 # Function to classify units into tiers based on score
 def classify_by_tier(best_counters):
     tier_bins = {
-        "S Tier (4-5 points)": [],
-        "A Tier (3-4 points)": [],
-        "B Tier (2-3 points)": [],
-        "C Tier (1-2 points)": [],
-        "D/E Tier (0-1 point)": []
+        S_TIER: [],
+        A_TIER: [],
+        B_TIER: [],
+        C_TIER: [],
+        DE_TIER: [],
     }
 
     for unit, score in best_counters:
         if 4 < score <= 5:
-            tier_bins["S Tier (4-5 points)"].append(unit)
+            tier_bins[S_TIER].append(unit)
         elif 3 < score <= 4:
-            tier_bins["A Tier (3-4 points)"].append(unit)
+            tier_bins[A_TIER].append(unit)
         elif 2 < score <= 3:
-            tier_bins["B Tier (2-3 points)"].append(unit)
+            tier_bins[B_TIER].append(unit)
         elif 1 < score <= 2:
-            tier_bins["C Tier (1-2 points)"].append(unit)
+            tier_bins[C_TIER].append(unit)
         else:
-            tier_bins["D/E Tier (0-1 point)"].append(unit)
+            tier_bins[DE_TIER].append(unit)
 
     return tier_bins
 
@@ -477,7 +483,7 @@ else:
         if units:  # Only display populated tiers.
             # D/E results are intentionally deferred: rendering their cards also loads
             # every associated image into the page.
-            if tier == "D/E Tier (0-1 point)":
+            if tier == DE_TIER:
                 if not st.button(
                     f"Show D/E Tier ({len(units)} units)",
                     key="show_de_tier",
