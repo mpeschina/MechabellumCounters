@@ -2,6 +2,7 @@ import streamlit as st
 import os
 from PIL import Image
 import base64
+import re
 
 
 #
@@ -108,7 +109,7 @@ show_sliders = st.sidebar.checkbox("Show Weight Sliders")
 #
 # db
 #
-# Initialize session state to track selected units (checkboxes)
+# Initialize session state to track selected units.
 if 'selected_units' not in st.session_state:
     st.session_state.selected_units = []
 if 'weights' not in st.session_state:
@@ -121,6 +122,88 @@ def get_image_as_base64(img_path):
     with open(img_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
 
+
+def unit_key(unit):
+    """Return a stable, CSS-safe key for a unit name."""
+    return re.sub(r"[^a-z0-9_]", "_", unit.lower().replace(" ", "_"))
+
+
+def toggle_unit(unit):
+    if unit in st.session_state.selected_units:
+        st.session_state.selected_units.remove(unit)
+    else:
+        st.session_state.selected_units.append(unit)
+
+
+# A Streamlit button is used for each tile so the artwork itself is the control,
+# while CSS supplies the image, hover feedback, selected outline, and checkmark.
+tile_image_css = []
+for unit, filename in unit_images.items():
+    img_base64 = get_image_as_base64(os.path.join(image_folder, filename))
+    tile_image_css.append(
+        f"[class*='st-key-unit_tile_{unit_key(unit)}'] button {{ "
+        f"background-image: url('data:image/jpeg;base64,{img_base64}'); }}"
+    )
+
+st.markdown(
+    """
+    <style>
+    [class*="st-key-unit_tile_"] button {
+        position: relative;
+        box-sizing: border-box;
+        aspect-ratio: 248 / 378;
+        min-height: 142px;
+        padding: 0.7rem;
+        border: 0;
+        border-radius: 12px;
+        background-color: transparent;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        box-shadow: none;
+        color: white;
+        font-size: .95rem;
+        font-weight: 700;
+        text-align: left;
+        text-shadow: 0 1px 3px #000;
+        transition: transform 140ms ease, filter 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
+    }
+    [class*="st-key-unit_tile_"] button:hover {
+        filter: brightness(1.15);
+        transform: scale(1.035);
+        box-shadow: 0 7px 18px rgba(0, 0, 0, .38);
+        z-index: 1;
+    }
+    [class*="_selected"] button {
+        border: 5px solid #000;
+        filter: brightness(.84);
+        box-shadow: 0 7px 20px rgba(0, 0, 0, .42);
+    }
+    [class*="_selected"] button:hover {
+        filter: brightness(.98);
+    }
+    [class*="_selected"] button::after {
+        content: "✓";
+        position: absolute;
+        top: 8px;
+        right: 9px;
+        display: grid;
+        place-items: center;
+        width: 27px;
+        height: 27px;
+        border-radius: 50%;
+        background: #000;
+        color: #fff;
+        font-size: 19px;
+        font-weight: 900;
+        line-height: 1;
+        text-shadow: none;
+        box-shadow: 0 2px 7px rgba(0, 0, 0, .45);
+    }
+    """ + "\n".join(tile_image_css) + "</style>",
+    unsafe_allow_html=True,
+)
+
 # Create a list to keep track of unit names and images in a grid
 unit_list = list(unit_images.keys())
 num_units = len(unit_list)
@@ -129,36 +212,16 @@ for i in range(0, num_units, cols_per_row):
     cols = st.columns(cols_per_row)
     for j, unit in enumerate(unit_list[i:i+cols_per_row]):
         with cols[j]:
-            #c = st.container()
-
-            # Add or remove the unit from the selected_units list based on the checkbox state
-            if st.checkbox(f" ", key=f"checkbox:{unit}", value=(unit in st.session_state.selected_units)):
-                if unit not in st.session_state.selected_units:
-                    st.session_state.selected_units.append(unit)
-            else:
-                if unit in st.session_state.selected_units:
-                    st.session_state.selected_units.remove(unit)
-
-            # Determine the border based on the updated state
-            if unit in st.session_state.selected_units:
-                border_style = "border: 3px solid black;"
-            else:
-                border_style = "border: 3px solid transparent;"  # Invisible border for layout consistency
-
-            # Render the image with the correct border style AFTER the checkbox state is determined
-            img_path = os.path.join(image_folder, unit_images[unit])
-            img_base64 = get_image_as_base64(img_path)
-
-            # Display the image first with the appropriate border
-            st.markdown(
-                f"""
-                <div style="text-align: center;">
-                    <img src="data:image/jpeg;base64,{img_base64}" style="width:100%; {border_style} border-radius: 10px;">
-                    <p>{unit}</p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
+            key = unit_key(unit)
+            selected = unit in st.session_state.selected_units
+            with st.container(key=f"unit_tile_{key}{'_selected' if selected else ''}"):
+                st.button(
+                    unit,
+                    key=f"unit_button_{key}",
+                    use_container_width=True,
+                    on_click=toggle_unit,
+                    args=(unit,),
+                )
 
             # Add a weight slider below each unit (range 1 to 5)
             if show_sliders and unit in st.session_state.selected_units:
