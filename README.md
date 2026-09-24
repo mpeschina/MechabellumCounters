@@ -83,20 +83,22 @@ These ratings are practical recommendations, not live game data. Balance changes
 ```text
 MechabellumCounters/
 ├── images/             # Unit artwork used by the interface
-├── streamlit_app.py    # UI, matchup data, scoring, and tier calculation
+├── streamlit_app.py    # App state, scoring, dialogs, and rendering
+├── ui_styles.py        # Image encoding plus CSS/Markdown style injection
+├── unit_data.py        # Unit names, matchup matrix, and tech overrides
 ├── LICENSE
 └── README.md
 ```
 
 ## Updating matchup data
 
-The relevant data structures are near the middle of `streamlit_app.py`:
+The relevant data structures are in `unit_data.py`:
 
-- `unit_matrix` contains the base-unit matchup scores. Its columns follow the order of the dictionary's unit keys.
-- `unit_overrides` contains matchup changes for particular unit techs.
+- `UNIT_MATRIX` contains the base-unit matchup scores. Its columns follow the order of the dictionary's unit keys.
+- `UNIT_OVERRIDES` contains matchup changes for particular unit techs.
 - `S`, `A`, `B`, `C`, `D`, and `E` map the matchup grades to numeric scores.
 
-When adding a unit, also add its image to `images/`, register it in `unit_images`, and keep every row of `unit_matrix` aligned with the same unit order.
+When adding a unit, also add its image to `images/`, register it in `UNIT_IMAGES`, and keep every row of `UNIT_MATRIX` aligned with the same unit order.
 
 ## Contributing
 
