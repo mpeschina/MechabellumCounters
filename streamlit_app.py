@@ -126,7 +126,8 @@ tile_image_css = []
 for unit, filename in unit_images.items():
     img_base64 = get_image_as_base64(os.path.join(image_folder, filename))
     tile_image_css.append(
-        f"[class*='st-key-unit_tile_{unit_key(unit)}'] button {{ "
+        f"[class*='st-key-unit_tile_{unit_key(unit)}'] button, "
+        f"[class*='st-key-result_card_{unit_key(unit)}_'] button {{ "
         f"background-image: url('data:image/jpeg;base64,{img_base64}'); }} "
         f"[class*='st-key-unit_tile_{unit_key(unit)}'] button::before {{ "
         f"content: '{unit}'; }}"
@@ -255,16 +256,25 @@ st.markdown(
         text-shadow: none;
         box-shadow: none;
     }
-    .result-card {
-        min-width: 0;
-        text-align: center;
-    }
-    .result-card img {
+    [class*="st-key-result_card_"] button {
         display: block;
+        box-sizing: border-box;
         width: 100%;
         aspect-ratio: 248 / 378;
+        min-height: 0;
+        padding: 0;
+        border: 0;
         border-radius: 10px;
-        object-fit: cover;
+        background-color: transparent;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        box-shadow: none;
+        cursor: default;
+        opacity: 1;
+    }
+    [class*="st-key-result_card_"] button [data-testid="stMarkdownContainer"] {
+        visibility: hidden;
     }
     .result-card p {
         margin: .25rem 0 0;
@@ -481,8 +491,8 @@ else:
     st.write("Best Counter Units by Tier:")
     for tier, units in tiered_counters.items():
         if units:  # Only display populated tiers.
-            # D/E results are intentionally deferred: rendering their cards also loads
-            # every associated image into the page.
+            # D/E results are intentionally deferred to keep the long, lower-priority
+            # recommendation list out of the initial view.
             if tier == DE_TIER:
                 if not st.button(
                     f"Show D/E Tier ({len(units)} units)",
@@ -493,7 +503,7 @@ else:
 
             st.markdown(f"**{tier}**")
             with st.container(key=f"tier_grid_{unit_key(tier)}"):
-                for unit in units:
+                for result_index, unit in enumerate(units):
                     # Check for base unit and tech name.
                     if ":" in unit:
                         base_unit, tech_name = unit.split(":", 1)
@@ -503,17 +513,22 @@ else:
                         base_unit = unit
                         tech_name = None
 
-                    img_path = os.path.join(image_folder, unit_images[base_unit])
-                    img_base64 = get_image_as_base64(img_path)
                     tech_label = f"<p><b>{tech_name}</b></p>" if tech_name else ""
 
-                    st.markdown(
-                        f"""
-                        <div class="result-card">
-                            <img src="data:image/jpeg;base64,{img_base64}" alt="{base_unit}">
-                            {tech_label}
-                        </div>
-                        """,
-                        unsafe_allow_html=True
-                    )
+                    # A disabled native button reuses the picker CSS artwork without
+                    # embedding another data URL for the same base image in the card.
+                    with st.container(
+                        key=f"result_card_{unit_key(base_unit)}_{unit_key(tier)}_{result_index}"
+                    ):
+                        st.button(
+                            base_unit,
+                            key=f"result_image_{unit_key(base_unit)}_{unit_key(tier)}_{result_index}",
+                            use_container_width=True,
+                            disabled=True,
+                        )
+                        if tech_label:
+                            st.markdown(
+                                f'<div class="result-card">{tech_label}</div>',
+                                unsafe_allow_html=True,
+                            )
 
