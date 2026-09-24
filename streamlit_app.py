@@ -415,25 +415,34 @@ def get_counter_score(selected_units, unit_matrix, weights):
     div = {unit: 0 for unit in all_units}
 
     for selected in selected_units:
+        index = UNITS.index(selected)
+
         for unit, counters in unit_matrix.items():
-            index = UNITS.index(selected)
             scores[unit] += counters[index] * weights[selected]
             div[unit] += weights[selected]
-        for unit, counters in unit_overrides.items():
-            if selected in counters:
-                scores[unit] += counters[selected] * weights[selected]
-                div[unit] += weights[selected]
+
+        for tech_unit, overrides in unit_overrides.items():
+            base_unit = tech_unit.split(":", 1)[0]
+            # A tech-specific rating replaces its base-unit rating only where
+            # the tech has curated matchup data. All other enemies retain the
+            # base-unit rating, so every candidate covers the full composition.
+            matchup_score = overrides.get(selected, unit_matrix[base_unit][index])
+            scores[tech_unit] += matchup_score * weights[selected]
+            div[tech_unit] += weights[selected]
 
     if (len(selected_units) > 0):
-        scores = {k: scores[k] / div[k] if scores[k]>0 else 0 for k in scores.keys()}
+        scores = {k: scores[k] / div[k] if div[k] > 0 else 0 for k in scores}
     return sorted(scores.items(), key=lambda x: x[1], reverse=True)
 
 
 selected_units = st.session_state.selected_units
-# Normalize the weights to make their sum equal to 1
+# Normalize only selected-enemy weights to make their sum equal to 1.
 raw_weights = st.session_state.weights
-total_weight = sum(raw_weights.values())
-weights = {unit: weight / total_weight for unit, weight in raw_weights.items()}
+total_weight = sum(raw_weights[unit] for unit in selected_units)
+weights = {
+    unit: raw_weights[unit] / total_weight
+    for unit in selected_units
+} if total_weight else {}
 best_counters = get_counter_score(selected_units, unit_matrix, weights)
 
 
@@ -474,6 +483,24 @@ def classify_by_tier(best_counters):
             tier_bins[C_TIER].append(unit)
         else:
             tier_bins[DE_TIER].append(unit)
+
+    base_unit_tiers = {
+        unit: tier
+        for tier, units in tier_bins.items()
+        for unit in units
+        if ":" not in unit
+    }
+
+    # Do not duplicate a recommendation with one of its tech variants when
+    # both are equally useful at the tier level. Keep the tech when it moves
+    # the unit into a different tier.
+    for tier, units in tier_bins.items():
+        tier_bins[tier] = [
+            unit
+            for unit in units
+            if ":" not in unit
+            or base_unit_tiers.get(unit.split(":", 1)[0]) != tier
+        ]
 
     return tier_bins
 
@@ -534,4 +561,6 @@ else:
                                 f'<div class="result-card">{tech_label}</div>',
                                 unsafe_allow_html=True,
                             )
+        else:
+            st.caption("empty")
 
