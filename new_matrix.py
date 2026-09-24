@@ -7,8 +7,9 @@ D = 1 # unit loose, Opponent is damaged
 E = 0 # unit loose, Opponent >95% HP
 unit_matrix = {
     "Crawler":      [C, C, E, B, A, B, E, E, B, D, A, E, S, E, E, D, A, B, A, E, C, B, E, A, E, A, A, D, E, E, B, E, D], 
-# done above!     ##### matrix below is broken!
-    "Fang":         [D, C, D, C, A, E, B, D, D, C, E, A, B, D, D, D, A, E, D, E, C, B, D, B, B, D, D, D, E, E, D],
+    "Fang":         [D, C, A, C, A, B, S, A, D, E, B, E, E, A, A, D, B, B, A, D, D, D, E, B, E, C, S, D, A, A, D, D, D], 
+# done above!     ##### matrix below is broken, only use to overwrite!
+
     "Hound":        [A, A, C, D, D, D, E, C, D, D, B, E, E, D, C, D, D, E, D, D, D, C, D, E, E, D, E, D, D, D, D],
     "Void Eye":     [D, D, A, C, D, D, E, C, B, D, B, E, E, B, C, C, A, E, C, D, D, B, D, E, E, D, E, D, A, C, C],
     "Marksman":     [D, D, B, B, C, S, D, D, D, D, D, S, D, B, D, D, S, A, C, B, D, D, D, D, A, D, D, D, A, C, D],
@@ -41,4 +42,3 @@ unit_matrix = {
     "Abyss":        [S, A, S, S, B, S, B, C, S, S, S, A, B, S, S, S, S, S, S, S, S, D, A, A, B, S, C, S, S, A, D],
     "Mountain":     [C, A, A, B, B, S, E, B, A, D, D, E, E, A, B, B, D, E, B, A, B, D, B, E, E, B, D, C, S, A, C],
 }
-
