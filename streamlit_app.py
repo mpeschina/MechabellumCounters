@@ -490,18 +490,21 @@ if not selected_units:
 else:
     st.write("Best Counter Units by Tier:")
     for tier, units in tiered_counters.items():
-        if units:  # Only display populated tiers.
-            # D/E results are intentionally deferred to keep the long, lower-priority
-            # recommendation list out of the initial view.
-            if tier == DE_TIER:
-                if not st.button(
-                    f"Show D/E Tier ({len(units)} units)",
-                    key="show_de_tier",
-                    type="primary",
-                ):
-                    continue
+        # Always show every tier label so empty score ranges are explicit.
+        st.markdown(f"**{tier}**")
 
-            st.markdown(f"**{tier}**")
+        # D/E results are intentionally deferred to keep the long, lower-priority
+        # recommendation list out of the initial view. An empty D/E tier needs no
+        # button because its header already communicates that it has no results.
+        if tier == DE_TIER and units:
+            if not st.button(
+                f"Show D/E Tier ({len(units)} units)",
+                key="show_de_tier",
+                type="primary",
+            ):
+                continue
+
+        if units:
             with st.container(key=f"tier_grid_{unit_key(tier)}"):
                 for result_index, unit in enumerate(units):
                     # Check for base unit and tech name.
