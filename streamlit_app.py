@@ -538,10 +538,13 @@ tiered_counters = classify_by_tier(best_counters)
 counter_scores = dict(best_counters)
 
 
-@st.dialog("Why this counter?", width="small")
+@st.dialog("Counter Breakdown", width="small")
 def show_counter_details(counter_unit, overall_score, enemies, normalized_weights):
     """Explain the weighted matchup score for one recommended counter."""
-    st.subheader(counter_unit)
+    st.markdown(
+        f'<h2 style="margin: 0 0 .75rem; color: #ff4b4b !important;">{counter_unit}</h2>',
+        unsafe_allow_html=True,
+    )
     score_column, tier_column = st.columns(2)
     score_column.metric("Overall score", f"{overall_score:.2f} / 5")
     tier_column.metric("Tier", get_tier_for_score(overall_score).split(" ", 1)[0])
