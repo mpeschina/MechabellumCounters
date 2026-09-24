@@ -57,11 +57,11 @@ Streamlit will print the local address in the terminal, usually `http://localhos
 1. Check every unit present in the enemy composition.
 2. Enable **Show Weight Sliders** in the sidebar if some enemy units should influence the result more strongly.
 3. Assign weights from 1 to 5 to the selected units. A higher weight gives that matchup more influence.
-4. Review the counter suggestions under **Best Counter Units by Tier**.
+4. Review the counter suggestions under **Best Counter Units by Tier**. Click a counter image to see its weighted matchup breakdown and why it received that tier.
 5. The image grids adapt automatically to your screen: three columns on phones,
    eight on tablets and small desktops, and fourteen on wide desktop screens.
 
-Bold text beneath a result image identifies a recommended tech variant. Results without a tech label refer to the base unit.
+Bold text beneath a result image identifies a recommended tech variant. Results without a tech label refer to the base unit. The image is the clickable control; tech labels are informational text.
 
 ## Scoring model
 

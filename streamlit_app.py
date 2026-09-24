@@ -97,6 +97,8 @@ if 'selected_units' not in st.session_state:
     st.session_state.selected_units = []
 if 'weights' not in st.session_state:
     st.session_state.weights = {unit: 1 for unit in unit_images.keys()}
+if 'show_de_tier' not in st.session_state:
+    st.session_state.show_de_tier = False
 
 
 
@@ -270,16 +272,26 @@ st.markdown(
         background-repeat: no-repeat;
         background-size: cover;
         box-shadow: none;
-        cursor: default;
+        cursor: pointer;
         opacity: 1;
+        transition: transform 140ms ease, filter 140ms ease, box-shadow 140ms ease;
+    }
+    [class*="st-key-result_card_"] button:hover {
+        filter: brightness(1.12);
+        transform: scale(1.025);
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, .75);
+        z-index: 1;
+    }
+    [class*="st-key-result_card_"] button:focus-visible {
+        outline: 3px solid #ffcc00;
+        outline-offset: 3px;
+    }
+    [class*="st-key-result_card_"] button:active {
+        filter: brightness(.92);
+        transform: scale(.985);
     }
     [class*="st-key-result_card_"] button [data-testid="stMarkdownContainer"] {
         visibility: hidden;
-    }
-    .result-card p {
-        margin: .25rem 0 0;
-        font-size: clamp(.65rem, 1vw, .95rem);
-        overflow-wrap: anywhere;
     }
     """ + "\n".join(tile_image_css) + "</style>",
     unsafe_allow_html=True,
@@ -408,27 +420,31 @@ UNITS = list(unit_matrix.keys())
 UNITS_TECH = list(unit_overrides.keys())
 
 
+# Return the curated rating for one candidate/enemy matchup and identify its source.
+def get_matchup_rating(candidate, enemy):
+    enemy_index = UNITS.index(enemy)
+
+    if ":" not in candidate:
+        return unit_matrix[candidate][enemy_index], "Base matchup"
+
+    base_unit = candidate.split(":", 1)[0]
+    overrides = unit_overrides[candidate]
+    if enemy in overrides:
+        return overrides[enemy], "Tech override"
+    return unit_matrix[base_unit][enemy_index], "Base matchup fallback"
+
+
 # Function to calculate the counter score
-def get_counter_score(selected_units, unit_matrix, weights):
+def get_counter_score(selected_units, weights):
     all_units = UNITS + UNITS_TECH
     scores = {unit: 0 for unit in all_units}
     div = {unit: 0 for unit in all_units}
 
     for selected in selected_units:
-        index = UNITS.index(selected)
-
-        for unit, counters in unit_matrix.items():
-            scores[unit] += counters[index] * weights[selected]
+        for unit in all_units:
+            matchup_score, _ = get_matchup_rating(unit, selected)
+            scores[unit] += matchup_score * weights[selected]
             div[unit] += weights[selected]
-
-        for tech_unit, overrides in unit_overrides.items():
-            base_unit = tech_unit.split(":", 1)[0]
-            # A tech-specific rating replaces its base-unit rating only where
-            # the tech has curated matchup data. All other enemies retain the
-            # base-unit rating, so every candidate covers the full composition.
-            matchup_score = overrides.get(selected, unit_matrix[base_unit][index])
-            scores[tech_unit] += matchup_score * weights[selected]
-            div[tech_unit] += weights[selected]
 
     if (len(selected_units) > 0):
         scores = {k: scores[k] / div[k] if div[k] > 0 else 0 for k in scores}
@@ -443,7 +459,7 @@ weights = {
     unit: raw_weights[unit] / total_weight
     for unit in selected_units
 } if total_weight else {}
-best_counters = get_counter_score(selected_units, unit_matrix, weights)
+best_counters = get_counter_score(selected_units, weights)
 
 
 #
@@ -461,6 +477,27 @@ B_TIER = "B Tier (2-3 points)"
 C_TIER = "C Tier (1-2 points)"
 DE_TIER = "D/E Tier (0-1 point)"
 
+RATING_DETAILS = {
+    S: ("S", "Wins with more than 95% health remaining and almost no damage taken."),
+    A: ("A", "Wins with roughly 60–95% health remaining."),
+    B: ("B", "Wins with roughly 10–60% health remaining."),
+    C: ("C", "Wins with less than 10% health remaining."),
+    D: ("D", "Loses, but damages the opponent."),
+    E: ("E", "Loses while the opponent retains more than 95% health."),
+}
+
+
+def get_tier_for_score(score):
+    if 4 < score <= 5:
+        return S_TIER
+    if 3 < score <= 4:
+        return A_TIER
+    if 2 < score <= 3:
+        return B_TIER
+    if 1 < score <= 2:
+        return C_TIER
+    return DE_TIER
+
 
 # Function to classify units into tiers based on score
 def classify_by_tier(best_counters):
@@ -473,16 +510,7 @@ def classify_by_tier(best_counters):
     }
 
     for unit, score in best_counters:
-        if 4 < score <= 5:
-            tier_bins[S_TIER].append(unit)
-        elif 3 < score <= 4:
-            tier_bins[A_TIER].append(unit)
-        elif 2 < score <= 3:
-            tier_bins[B_TIER].append(unit)
-        elif 1 < score <= 2:
-            tier_bins[C_TIER].append(unit)
-        else:
-            tier_bins[DE_TIER].append(unit)
+        tier_bins[get_tier_for_score(score)].append(unit)
 
     base_unit_tiers = {
         unit: tier
@@ -505,11 +533,32 @@ def classify_by_tier(best_counters):
     return tier_bins
 
 # Example usage
-best_counters = get_counter_score(selected_units, unit_matrix, weights)
+best_counters = get_counter_score(selected_units, weights)
 tiered_counters = classify_by_tier(best_counters)
+counter_scores = dict(best_counters)
 
 
+@st.dialog("Why this counter?", width="small")
+def show_counter_details(counter_unit, overall_score, enemies, normalized_weights):
+    """Explain the weighted matchup score for one recommended counter."""
+    st.subheader(counter_unit)
+    score_column, tier_column = st.columns(2)
+    score_column.metric("Overall score", f"{overall_score:.2f} / 5")
+    tier_column.metric("Tier", get_tier_for_score(overall_score).split(" ", 1)[0])
+    st.caption(get_tier_for_score(overall_score))
+    st.write("This score is the weighted average of the selected enemy matchups.")
 
+    for enemy in enemies:
+        rating, source = get_matchup_rating(counter_unit, enemy)
+        grade, explanation = RATING_DETAILS[rating]
+        weight = normalized_weights[enemy]
+        contribution = rating * weight
+
+        st.markdown(f"**{enemy} — {grade} ({rating}/5)**")
+        st.caption(
+            f"{source} · Weight: {weight:.0%} · Weighted contribution: {contribution:.2f}"
+        )
+        st.caption(explanation)
 
 # Display the best counter units in matrix format.
 if not selected_units:
@@ -521,15 +570,17 @@ else:
         st.markdown(f"**{tier}**")
 
         # D/E results are intentionally deferred to keep the long, lower-priority
-        # recommendation list out of the initial view. An empty D/E tier needs no
-        # button because its header already communicates that it has no results.
+        # recommendation list out of the initial view. Keep the reveal in session
+        # state so a click on one of these cards can open its dialog on a later rerun.
         if tier == DE_TIER and units:
-            if not st.button(
-                f"Show D/E Tier ({len(units)} units)",
-                key="show_de_tier",
-                type="primary",
-            ):
-                continue
+            if not st.session_state.show_de_tier:
+                if not st.button(
+                    f"Show D/E Tier ({len(units)} units)",
+                    key="show_de_tier_button",
+                    type="primary",
+                ):
+                    continue
+                st.session_state.show_de_tier = True
 
         if units:
             with st.container(key=f"tier_grid_{unit_key(tier)}"):
@@ -543,24 +594,25 @@ else:
                         base_unit = unit
                         tech_name = None
 
-                    tech_label = f"<p><b>{tech_name}</b></p>" if tech_name else ""
-
-                    # A disabled native button reuses the picker CSS artwork without
-                    # embedding another data URL for the same base image in the card.
+                    # The native button reuses the picker artwork without embedding
+                    # another data URL for the same base image in the card.
                     with st.container(
                         key=f"result_card_{unit_key(base_unit)}_{unit_key(tier)}_{result_index}"
                     ):
-                        st.button(
-                            base_unit,
+                        if st.button(
+                            unit,
                             key=f"result_image_{unit_key(base_unit)}_{unit_key(tier)}_{result_index}",
                             use_container_width=True,
-                            disabled=True,
-                        )
-                        if tech_label:
-                            st.markdown(
-                                f'<div class="result-card">{tech_label}</div>',
-                                unsafe_allow_html=True,
+                            help=f"Show why {unit} is recommended",
+                        ):
+                            show_counter_details(
+                                unit,
+                                counter_scores[unit],
+                                selected_units,
+                                weights,
                             )
+                        if tech_name:
+                            st.markdown(f"**{tech_name}**")
         else:
             st.caption("empty")
 
