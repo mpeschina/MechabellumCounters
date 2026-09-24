@@ -8,9 +8,9 @@ E = 0 # unit loose, Opponent >95% HP
 unit_matrix = {
     "Crawler":      [C, C, E, B, A, B, E, E, B, D, A, E, S, E, E, D, A, B, A, E, C, B, E, A, E, A, A, D, E, E, B, E, D], 
     "Fang":         [D, C, A, C, A, B, S, A, D, E, B, E, E, A, A, D, B, B, A, D, D, D, E, B, E, C, S, D, A, A, D, D, D], 
+    "Hound":        [A, A, C, E, C, E, D, E, B, D, D, D, C, E, E, D, D, D, D, E, D, D, D, D, E, D, B, D, E, E, D, E, D],
+    "Void Eye":     [D, D, S, C, D, D, B, E, B, B, B, S, B, E, E, B, B, A, S, E, D, B, A, D, D, D, B, D, E, E, D, E, D],
 # done above!     ##### matrix below is broken, only use to overwrite!
-
-    "Hound":        [A, A, C, D, D, D, E, C, D, D, B, E, E, D, C, D, D, E, D, D, D, C, D, E, E, D, E, D, D, D, D],
     "Void Eye":     [D, D, A, C, D, D, E, C, B, D, B, E, E, B, C, C, A, E, C, D, D, B, D, E, E, D, E, D, A, C, C],
     "Marksman":     [D, D, B, B, C, S, D, D, D, D, D, S, D, B, D, D, S, A, C, B, D, D, D, D, A, D, D, D, A, C, D],
     "Vortex":       [C, A, A, D, C, A, A, B, B, D, D, C, C, D, D, D, B, A, D, B, D, D, D, D, D, D, C, D, B, C, C],
@@ -41,4 +41,73 @@ unit_matrix = {
     "War Factory":  [B, A, A, B, A, S, E, A, S, A, B, E, E, S, A, A, D, E, A, S, B, D, A, E, E, C, E, D, S, A, A],
     "Abyss":        [S, A, S, S, B, S, B, C, S, S, S, A, B, S, S, S, S, S, S, S, S, D, A, A, B, S, C, S, S, A, D],
     "Mountain":     [C, A, A, B, B, S, E, B, A, D, D, E, E, A, B, B, D, E, B, A, B, D, B, E, E, B, D, C, S, A, C],
+}
+
+
+
+
+
+
+UNIT_MATRIX = {
+    "Abyss":         [S, A, S, S, B, E, S, B, C, S, S, S, S, A, B, S, S, S, S, S, D, S, A, E, S, S, D, A, A, B, S, C, S],
+    "Mountain":      [C, A, A, B, B, E, S, E, B, A, D, S, D, E, E, A, B, B, D, E, C, B, A, E, A, B, D, B, E, E, B, D, C],
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+UNIT_MATRIX = {
+    "Crawler":       [C, B, D, A, A, E, E, E, A, D, A, E, A, E, E, D, B, D, A, E, D, C, D, E, E, A, A, D, E, E, D, E, D],
+    "Fang":          [D, C, D, C, A, E, E, B, D, D, C, E, E, A, B, D, D, D, A, E, D, D, E, E, E, C, B, D, B, B, D, D, D],
+    "Hound":         [A, A, C, D, D, E, D, E, C, D, D, D, B, E, E, D, C, D, D, E, D, D, D, E, D, D, C, D, E, E, D, E, D],
+    "Void Eye":      [D, D, A, C, D, E, D, E, C, B, D, A, B, E, E, B, C, C, A, E, C, C, C, E, D, D, B, D, E, E, D, E, D],
+    "Marksman":      [D, D, B, B, C, E, S, D, D, D, D, A, D, S, D, B, D, D, S, A, D, C, C, E, B, D, D, D, D, A, D, D, D],
+    "Vortex":        [C, A, A, D, C, E, A, A, B, B, D, B, D, C, C, D, D, D, B, A, C, D, C, E, B, D, D, D, D, D, D, C, D],
+    "Arclight":      [S, S, B, C, E, E, C, E, A, D, D, D, E, E, E, D, D, D, D, E, D, E, D, E, D, E, E, D, E, E, E, E, D],
+    "Wasp":          [S, D, S, D, C, E, S, C, D, S, S, S, S, B, D, S, S, A, S, E, D, S, D, E, S, S, B, S, B, B, A, D, A],
+    "Mustang":       [D, B, D, D, B, E, D, B, C, E, E, D, D, A, C, D, D, D, B, D, D, D, D, E, E, D, D, D, B, B, D, D, B],
+    "Sledgehammer":  [A, A, B, D, C, E, A, E, S, C, D, D, B, E, E, D, D, D, B, E, D, E, B, E, D, E, D, D, E, E, E, E, D],
+    "Steelballs":    [D, D, B, B, B, E, A, E, A, B, C, B, A, E, E, B, C, A, E, E, C, D, A, E, B, C, B, D, E, E, D, E, B],
+    "Fire Badger":   [S, S, B, D, D, E, B, E, A, C, D, C, A, E, E, D, D, D, D, E, D, E, B, E, D, E, D, D, E, E, E, E, E],
+    "Stormcaller":   [D, S, D, D, B, E, S, E, C, D, D, D, C, E, E, B, B, E, S, E, D, S, A, E, A, B, A, E, E, E, D, E, C],
+    "Phoenix":       [S, E, S, S, D, E, S, D, D, S, A, S, S, C, D, S, S, S, S, A, D, S, B, E, S, S, D, S, D, B, A, D, S],
+    "Phantom Ray":   [A, D, S, S, C, E, S, C, D, S, S, S, S, C, C, S, S, S, S, A, D, S, B, E, S, S, D, S, D, C, A, D, S],
+    "Tarantula":     [A, A, B, D, D, E, B, E, B, B, D, B, D, E, E, C, D, D, C, E, C, D, A, E, B, D, D, D, E, E, D, E, D],
+    "Sabertooth":    [D, C, D, D, C, E, A, E, B, B, D, A, D, E, E, A, C, B, A, E, A, B, A, E, A, D, D, D, E, E, D, E, D],
+    "Rhino":         [C, C, B, D, C, E, A, E, B, B, D, A, S, E, E, B, D, C, A, E, A, A, A, E, A, D, E, D, E, E, E, E, D],
+    "Hacker":        [D, E, C, D, E, E, B, E, D, D, S, A, E, E, E, D, D, D, C, E, D, D, A, E, D, E, D, D, E, E, E, E, D],
+    "Wraith":        [S, B, S, S, D, E, S, S, B, S, A, S, S, D, D, A, A, A, S, C, D, A, D, E, A, A, E, A, D, D, A, D, A],
+    "Farseer":       [C, A, A, D, C, E, A, A, B, B, D, B, D, C, C, D, D, D, B, A, C, D, C, E, B, D, D, D, D, D, D, C, D],
+    "Scorpion":      [D, A, A, D, D, E, A, E, A, A, S, S, D, E, E, B, D, D, A, E, B, C, S, E, S, D, D, D, E, E, D, E, D],
+    "Typhoon":       [A, S, B, D, D, E, C, S, B, D, D, D, D, D, D, B, D, E, D, C, D, E, C, E, D, D, D, D, D, D, D, D, C],
+    "Centurion":     [C, A, A, D, C, E, A, A, B, B, D, B, D, C, C, D, D, D, B, A, C, D, C, E, B, D, D, D, D, D, D, C, D],
+    "Vulcan":        [S, S, A, B, D, E, B, E, S, B, D, A, D, E, E, D, D, D, C, E, D, D, B, E, C, D, D, D, E, E, D, E, D],
+    "Fortress":      [D, D, C, C, B, E, S, E, C, A, D, S, D, E, E, A, C, A, S, E, A, B, A, E, A, C, E, D, E, E, D, E, D],
+    "Melting Point": [D, D, D, D, C, E, A, D, C, B, D, A, D, B, B, A, B, S, S, S, A, A, A, E, S, S, C, B, A, B, B, B, B],
+    "Sandworm":      [B, B, B, B, S, E, S, E, B, A, D, S, S, E, E, B, B, C, A, E, A, B, A, E, A, C, D, C, E, E, D, E, D],
+    "Raiden":        [S, D, S, S, C, E, S, D, D, S, S, S, S, A, A, S, S, S, S, S, B, S, A, E, S, S, D, B, C, D, S, D, A],
+    "Overlord":      [S, D, S, S, D, E, S, D, D, S, S, S, S, D, D, S, S, S, S, S, A, S, A, E, S, S, D, S, B, C, S, D, S],
+    "War Factory":   [B, A, A, B, A, E, S, E, A, S, A, S, B, E, E, S, A, A, D, E, A, A, A, E, S, B, D, A, E, E, C, E, D],
+    "Abyss":         [S, A, S, S, B, E, S, B, C, S, S, S, S, A, B, S, S, S, S, S, D, S, A, E, S, S, D, A, A, B, S, C, S],
+    "Mountain":      [C, A, A, B, B, E, S, E, B, A, D, S, D, E, E, A, B, B, D, E, C, B, A, E, A, B, D, B, E, E, B, D, C],
 }
