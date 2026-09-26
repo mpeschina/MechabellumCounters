@@ -10,12 +10,11 @@ unit_matrix = {
     "Fang":         [D, C, A, C, A, B, S, A, D, E, B, E, E, A, A, D, B, B, A, D, D, D, E, B, E, C, S, D, A, A, D, D, D], 
     "Hound":        [A, A, C, E, C, E, D, E, B, D, D, D, C, E, E, D, D, D, D, E, D, D, D, D, E, D, B, D, E, E, D, E, D],
     "Void Eye":     [D, D, S, C, D, D, B, E, B, B, B, S, B, E, E, B, B, A, S, E, D, B, A, D, D, D, B, D, E, E, D, E, D],
+    "Marksman":     [E, D, B, C, C, D, A, E, E, D, D, D, B, S, D, D, D, D, S, S, D, D, C, C, B, D, D, E, E, D, D, E, D],
+    "Vortex":       [D, D, S, B, B, C, A, E, A, A, E, S, B, E, E, A, D, D, S, E, B, E, S, D, A, D, D, D, E, E, E, E, D],
+    "Arclight":     [S, S, B, D, D, D, C, E, S, D, D, C, E, E, E, D, E, D, D, E, D, E, D, D, D, E, E, E, E, E, E, E, E],
+    "Wasp":         [S, D, S, S, B, S, S, C, D, S, S, S, S, A, D, S, S, S, S, E, B, S, E, D, S, S, S, S, A, A, S, D, S] ,
 # done above!     ##### matrix below is broken, only use to overwrite!
-    "Void Eye":     [D, D, A, C, D, D, E, C, B, D, B, E, E, B, C, C, A, E, C, D, D, B, D, E, E, D, E, D, A, C, C],
-    "Marksman":     [D, D, B, B, C, S, D, D, D, D, D, S, D, B, D, D, S, A, C, B, D, D, D, D, A, D, D, D, A, C, D],
-    "Vortex":       [C, A, A, D, C, A, A, B, B, D, D, C, C, D, D, D, B, A, D, B, D, D, D, D, D, D, C, D, B, C, C],
-    "Arclight":     [S, S, B, C, E, C, E, A, D, D, E, E, E, D, D, D, D, E, E, D, E, E, D, E, E, E, E, D, D, D, D],
-    "Wasp":         [S, D, S, D, C, S, C, D, S, S, S, B, D, S, S, A, S, E, S, S, S, B, S, B, B, A, D, A, S, D, D],
     "Mustang":      [D, B, D, D, B, D, B, C, E, E, D, A, C, D, D, D, B, D, D, E, D, D, D, B, B, D, D, B, D, D, D],
     "Sledgehammer": [A, A, B, D, C, A, E, S, C, D, B, E, E, D, D, D, B, E, E, D, E, D, D, E, E, E, E, D, D, B, D],
     "Steelballs":   [D, D, B, B, B, A, E, A, B, C, A, E, E, B, C, A, E, E, D, B, C, B, D, E, E, D, E, B, B, A, C],
@@ -42,25 +41,6 @@ unit_matrix = {
     "Abyss":        [S, A, S, S, B, S, B, C, S, S, S, A, B, S, S, S, S, S, S, S, S, D, A, A, B, S, C, S, S, A, D],
     "Mountain":     [C, A, A, B, B, S, E, B, A, D, D, E, E, A, B, B, D, E, B, A, B, D, B, E, E, B, D, C, S, A, C],
 }
-
-
-
-
-
-
-UNIT_MATRIX = {
-    "Abyss":         [S, A, S, S, B, E, S, B, C, S, S, S, S, A, B, S, S, S, S, S, D, S, A, E, S, S, D, A, A, B, S, C, S],
-    "Mountain":      [C, A, A, B, B, E, S, E, B, A, D, S, D, E, E, A, B, B, D, E, C, B, A, E, A, B, D, B, E, E, B, D, C],
-}
-
-
-
-
-
-
-
-
-
 
 
 
