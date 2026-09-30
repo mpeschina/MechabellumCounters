@@ -35,7 +35,7 @@ REVERSE = {
 
 def load_matrix(path: str | Path) -> dict[str, list[Any]]:
     """Load unit_matrix from new_matrix.py."""
-    namespace = runpy.run_path(str(path))
+    namespace = runpy.run_path(str(path), init_globals={"_": "_"})
     matrix = namespace.get("unit_matrix")
 
     if not isinstance(matrix, dict):
@@ -183,7 +183,7 @@ def main() -> None:
     INPUT_FILE = "new_matrix.py"
 
     # Number of rows that are already known to be correct.
-    ALREADY_CORRECT_NUMBER = 12
+    ALREADY_CORRECT_NUMBER = 13
 
     matrix = load_matrix(INPUT_FILE)
 
