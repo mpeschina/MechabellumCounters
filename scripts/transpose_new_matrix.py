@@ -183,7 +183,7 @@ def main() -> None:
     INPUT_FILE = "new_matrix.py"
 
     # Number of rows that are already known to be correct.
-    ALREADY_CORRECT_NUMBER = 13
+    ALREADY_CORRECT_NUMBER = 15
 
     matrix = load_matrix(INPUT_FILE)
 
