@@ -21,30 +21,32 @@ unit_matrix = {
     "Stormcaller":  [E, S, D, D, D, D, S, E, D, D, E, D, C, E, E, B, C, E, S, E, A, B, A, D, S, A, S, E, E, E, S, E, D],
     "Phoenix":      [S, D, S, S, E, S, S, D, D, S, S, S, S, C, D, S, S, S, S, S, D, S, D, D, S, S, D, S, E, D, S, D, S],
     "Phantom Ray":  [S, D, S, S, D, S, S, B, D, S, S, S, S, B, C, S, S, S, S, S, C, S, A, D, S, S, C, S, D, C, S, D, S],
+    "Tarantula":    [A, B, A, D, D, D, B, E, A, C, D, B, D, E, E, C, E, D, A, E, D, E, B, D, D, E, E, E, E, E, E, E, E],
+    "Sabertooth":   [D, D, C, D, C, B, S, E, D, B, D, S, D, E, E, A, C, A, A, E, A, B, S, A, A, D, D, D, E, E, D, E, D],
+    "Rhino":        [D, D, C, D, C, C, A, E, B, A, D, A, S, E, E, A, D, C, S, E, A, E, A, B, A, D, E, D, E, E, E, E, E],
 # done above!     ##### matrix below is broken, only use to overwrite!
-    "Tarantula    ": [_, _, _, D, _, D, _, E, _, _, D, _, D, E, E, C, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _],
-    "Sabertooth   ": [D, D, _, D, _, _, S, E, _, _, D, S, D, E, E, _, C, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _],
-    "Rhino        ": [D, D, _, D, _, _, _, E, _, _, D, _, S, E, E, _, _, C, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _],
-    "Hacker       ": [D, D, _, E, E, E, _, E, D, D, S, D, E, E, E, _, _, _, C, _, _, _, _, _, _, _, _, _, _, _, _, _, _],
-    "Wraith       ": [S, _, S, S, E, S, S, S, _, S, S, S, S, E, E, _, _, _, _, C, _, _, _, _, _, _, _, _, _, _, _, _, _],
-    "Farseer      ": [D, _, _, _, _, D, _, D, _, _, D, _, D, _, D, _, _, _, _, _, C, _, _, _, _, _, _, _, _, _, _, _, _],
-    "Scorpion     ": [D, _, _, D, _, S, S, E, _, S, _, S, D, E, E, _, _, _, _, _, _, C, _, _, _, _, _, _, _, _, _, _, _],
-    "Typhoon      ": [S, S, _, D, D, E, _, S, _, D, D, _, D, _, D, _, _, _, _, _, _, _, C, _, _, _, _, _, _, _, _, _, _],
-    "Centurion    ": [D, D, _, _, D, _, _, _, _, _, D, D, _, _, _, _, _, _, _, _, _, _, _, C, _, _, _, _, _, _, _, _, _],
-    "Vulcan       ": [S, S, S, _, D, D, _, E, S, _, D, _, E, E, E, _, _, _, _, _, _, _, _, _, C, _, _, _, _, _, _, _, _],
-    "Fortress     ": [D, D, _, _, _, _, S, E, _, _, D, S, D, E, E, _, _, _, _, _, _, _, _, _, _, C, _, _, _, _, _, _, _],
-    "Melting Point": [D, E, D, D, _, _, S, E, D, _, D, _, E, _, D, _, _, _, _, _, _, _, _, _, _, _, C, _, _, _, _, _, _],
-    "Sandworm     ": [_, _, _, _, S, _, S, E, _, S, D, S, S, E, E, _, _, _, _, _, _, _, _, _, _, _, _, C, _, _, _, _, _],
-    "Raiden       ": [S, D, S, S, S, S, S, D, D, S, S, S, S, S, _, _, _, _, _, _, _, _, _, _, _, _, _, _, C, _, _, _, _],
-    "Overlord     ": [S, D, S, S, _, S, S, D, D, S, S, S, S, _, D, _, _, _, _, _, _, _, _, _, _, _, _, _, _, C, _, _, _],
-    "War Factory  ": [D, _, _, _, _, S, S, E, _, _, S, S, E, E, E, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, C, _, _],
-    "Abyss        ": [S, _, S, S, S, S, S, _, _, S, S, S, S, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, C, _],
-    "Mountain     ": [_, _, _, _, _, _, S, E, _, _, _, S, _, E, E, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, C],
+    "Hacker       ": [D, D, _, E, E, E, _, E, D, D, S, D, E, E, E, D, D, E, C, _, _, _, _, _, _, _, _, _, _, _, _, _, _],
+    "Wraith       ": [S, _, S, S, E, S, S, S, _, S, S, S, S, E, E, S, S, S, _, C, _, _, _, _, _, _, _, _, _, _, _, _, _],
+    "Farseer      ": [D, _, _, _, _, D, _, D, _, _, D, _, D, _, D, _, D, D, _, _, C, _, _, _, _, _, _, _, _, _, _, _, _],
+    "Scorpion     ": [D, _, _, D, _, S, S, E, _, S, _, S, D, E, E, S, D, S, _, _, _, C, _, _, _, _, _, _, _, _, _, _, _],
+    "Typhoon      ": [S, S, _, D, D, E, _, S, _, D, D, _, D, _, D, D, E, D, _, _, _, _, C, _, _, _, _, _, _, _, _, _, _],
+    "Centurion    ": [D, D, _, _, D, _, _, _, _, _, D, D, _, _, _, _, D, D, _, _, _, _, _, C, _, _, _, _, _, _, _, _, _],
+    "Vulcan       ": [S, S, S, _, D, D, _, E, S, _, D, _, E, E, E, _, D, D, _, _, _, _, _, _, C, _, _, _, _, _, _, _, _],
+    "Fortress     ": [D, D, _, _, _, _, S, E, _, _, D, S, D, E, E, S, _, _, _, _, _, _, _, _, _, C, _, _, _, _, _, _, _],
+    "Melting Point": [D, E, D, D, _, _, S, E, D, _, D, _, E, _, D, S, _, S, _, _, _, _, _, _, _, _, C, _, _, _, _, _, _],
+    "Sandworm     ": [_, _, _, _, S, _, S, E, _, S, D, S, S, E, E, S, _, _, _, _, _, _, _, _, _, _, _, C, _, _, _, _, _],
+    "Raiden       ": [S, D, S, S, S, S, S, D, D, S, S, S, S, S, _, S, S, S, _, _, _, _, _, _, _, _, _, _, C, _, _, _, _],
+    "Overlord     ": [S, D, S, S, _, S, S, D, D, S, S, S, S, _, D, S, S, S, _, _, _, _, _, _, _, _, _, _, _, C, _, _, _],
+    "War Factory  ": [D, _, _, _, _, S, S, E, _, _, S, S, E, E, E, S, _, S, _, _, _, _, _, _, _, _, _, _, _, _, C, _, _],
+    "Abyss        ": [S, _, S, S, S, S, S, _, _, S, S, S, S, _, _, S, S, S, _, _, _, _, _, _, _, _, _, _, _, _, _, C, _],
+    "Mountain     ": [_, _, _, _, _, _, S, E, _, _, _, S, _, E, E, S, _, S, _, _, _, _, _, _, _, _, _, _, _, _, _, _, C],
 }
 
 
 
 
+
+    
 
 UNIT_MATRIX = {
     "Crawler":       [C, B, D, A, A, E, E, E, A, D, A, E, A, E, E, D, B, D, A, E, D, C, D, E, E, A, A, D, E, E, D, E, D],
